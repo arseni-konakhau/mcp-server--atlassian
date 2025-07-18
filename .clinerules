@@ -154,6 +154,28 @@ REMEMBER: After every memory reset, I begin completely fresh. The Memory Bank is
 
 ## Project Intelligence Learned
 
+### Cline Integration Patterns (Latest)
+- **Proven Cline Configuration**: `uv run mcp-atlassian --env-file .env --verbose` is the working command
+- **Local Source Execution**: Direct source execution works better than Docker for Cline integration
+- **Working Directory Importance**: Must run from project root (`/Users/arsenikonakhau/Desktop/_DEVELOPER_/debug--sooperset-mcp-atlassian`)
+- **Transport Protocol**: stdio transport with verbose logging provides best debugging experience
+- **Environment File**: Local `.env` file with API tokens is the preferred authentication method
+- **Safety First**: Start with `READ_ONLY_MODE=true` for initial testing, then enable writes as needed
+- **Project Access**: MCPManager project (SMP key) serves as excellent test environment
+- **Tool Validation**: Test read operations first (search, get issue, list projects) before attempting writes
+- **End-to-End Workflow**: Complete JIRA management through Cline is fully functional
+  - Issue retrieval with formatted tables
+  - Status transitions (In Progress → Done)
+  - Comment addition during transitions
+  - Real-time project overview generation
+
+### Cline Workflow Patterns
+- **Configuration Location**: Cline MCP settings stored in VSCode global storage
+- **Command Structure**: Use full `uv run` commands rather than shortcuts for reliability
+- **Verbose Logging**: Always enable verbose logging for troubleshooting and monitoring
+- **Error Handling**: Read-only mode errors are expected and indicate proper safety configuration
+- **Testing Progression**: Search → Get Issue → List Projects → (optionally) Create Issue
+
 ### Testing Infrastructure Patterns
 - **Proven Workflow**: The successful testing pattern is: `python3 install_dependencies.py` → `cp .env.debug .env` → `uv run python3 simple_test.py --verbose`
 - **File Consolidation**: Users prefer single comprehensive guides over multiple overlapping documentation files
@@ -164,12 +186,14 @@ REMEMBER: After every memory reset, I begin completely fresh. The Memory Bank is
 - **Simplicity Over Complexity**: Users want streamlined workflows, not extensive documentation trees
 - **Working Examples**: Focus on proven successful commands rather than theoretical possibilities
 - **Clear File Purposes**: Each file should have a distinct, clear purpose without overlap
+- **IDE Integration**: Local source execution preferred over Docker for development workflows
 
 ### MCP Atlassian Specific
 - **UV Dependency**: The project works best with UV package manager for dependency management
 - **Read-Only Testing**: Default to read-only mode for safe testing (`READ_ONLY_MODE=true`)
 - **Environment-First**: All configuration via environment variables, not command-line arguments
 - **Testing Progression**: Start with basic imports, then configuration, then API connectivity, then MCP server
+- **Cline Compatibility**: Works excellently with Cline extension using local source execution
 
 ### Testing Script Purposes
 - **simple_test.py**: "Check engine light" - Quick all-in-one validation for daily workflow (`uv run python3 simple_test.py --verbose`)
@@ -179,3 +203,15 @@ REMEMBER: After every memory reset, I begin completely fresh. The Memory Bank is
   - API-only testing, MCP protocol testing, HTTP server mode, individual tool testing
   - Best for: troubleshooting when simple_test.py fails, component isolation, advanced debugging
 - **Both scripts serve different purposes**: Keep both - simple for daily use, manual for debugging
+
+### Cline Integration Success Factors
+- **Command Reliability**: `uv run mcp-atlassian --env-file .env --verbose` is the proven working command
+- **Authentication Method**: API token authentication (username + token) works reliably
+- **Project Setup**: MCPManager project with SMP key provides good test environment
+- **Safety Configuration**: Read-only mode prevents accidental changes during testing
+- **Logging Strategy**: Verbose logging essential for debugging and monitoring MCP operations
+
+
+
+
+<!-- follow your custom instructions -->
