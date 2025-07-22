@@ -24,10 +24,10 @@ This file provides guidance for autonomous coding agents working inside the **MC
 ## Mandatory dev workflow
 
 ```bash
-uv sync --frozen --all-extras --dev  # install dependencies
-pre-commit install                    # setup hooks
-pre-commit run --all-files           # Ruff + Prettier + Pyright
-uv run pytest                        # run full test suite
+uv sync --frozen --all-extras --dev     # install dependencies
+pre-commit install                      # setup hooks
+pre-commit run --all-files              # Ruff + Prettier + Pyright
+uv run pytest                           # run full test suite
 ```
 
 *Tests must pass* and *lint/typing must be clean* before committing.
@@ -86,8 +86,8 @@ uv run mcp-atlassian --oauth-setup   # OAuth wizard
 uv run mcp-atlassian -v              # Verbose mode
 
 # Git workflow
-git checkout -b feature/description   # New feature
-git checkout -b fix/issue-description # Bug fix
-git commit --trailer "Reported-by:<name>"      # Attribution
-git commit --trailer "Github-Issue:#<number>"  # Issue reference
+git checkout -b feature/description             # New feature
+git checkout -b fix/issue-description           # Bug fix
+git commit --trailer "Reported-by:<name>"       # Attribution
+git commit --trailer "Github-Issue:#<number>"   # Issue reference
 ```
