@@ -4,6 +4,9 @@ This guide provides a streamlined approach to test the MCP Atlassian server base
 
 ## 🚀 Quick Start (Proven Workflow)
 
+### 0. Prerequisite
+Make sure you have `python` and `uv` installed on ur machine
+
 ### 1. One-Time Setup
 ```bash
 # Install dependencies

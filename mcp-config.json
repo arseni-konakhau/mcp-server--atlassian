@@ -1,0 +1,28 @@
+{
+  "mcpServers": {
+    "mcp-atlassian": {
+      "command": "uv",
+      "args": [
+        "run",
+        "mcp-atlassian",
+        "--env-file",
+        "/Users/arsenikonakhau/Desktop/_DEVELOPER_/debug--sooperset-mcp-atlassian/.env",
+        "--verbose"
+      ],
+      "cwd": "/Users/arsenikonakhau/Desktop/_DEVELOPER_/debug--sooperset-mcp-atlassian",
+      "autoApprove": [
+        "jira_create_issue",
+        "jira_get_all_projects",
+        "confluence_search",
+        "confluence_create_page",
+        "jira_search",
+        "confluence_get_page",
+        "confluence_update_page",
+        "confluence_delete_page",
+        "jira_get_project_issues",
+        "jira_get_transitions",
+        "jira_transition_issue"
+      ]
+    }
+  }
+}
