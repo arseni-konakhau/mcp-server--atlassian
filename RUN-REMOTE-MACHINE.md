@@ -165,25 +165,67 @@ uv run python3 manual_test_debug.py --mode api-only
 
 ## Deployment Options
 
-### Option 1: Screen Session (Development/Testing)
+### Option 1: Direct Run (Simplest)
 
-Best for: Development, testing, temporary deployments
+**Best for**: Testing, development, immediate access
+
+This is the simplest way - just run the server directly:
 
 ```bash
-# Start in screen session
-screen -S mcp-atlassian
-
-# Run server with HTTP transport
+# Run MCP server (accessible at http://your-server-ip:9000)
 uv run mcp-atlassian --transport streamable-http --port 9000 --verbose
 
-# Detach from screen: Ctrl+A, then D
-# Reattach: screen -r mcp-atlassian
-# List sessions: screen -ls
+# That's it! Server is running and accessible
+# Press Ctrl+C to stop
 ```
 
-### Option 2: Systemd Service (Production)
+**Pros**: Immediate, simple, easy debugging  
+**Cons**: Stops when terminal closes or SSH disconnects
 
-Best for: Production deployments, automatic startup, system integration
+### Option 2: Background Process (Simple)
+
+**Best for**: Simple background operation without complex setup
+
+Run the server in the background using `nohup`:
+
+```bash
+# Run in background (survives SSH disconnection)
+nohup uv run mcp-atlassian --transport streamable-http --port 9000 --verbose > mcp.log 2>&1 &
+
+# Check if running
+ps aux | grep mcp-atlassian
+
+# View logs
+tail -f mcp.log
+
+# Stop the server
+pkill -f mcp-atlassian
+```
+
+**Pros**: Simple background operation, survives SSH disconnection  
+**Cons**: No automatic restart, manual management
+
+### Option 3: Systemd Service (Production)
+
+**Best for**: Production deployments, automatic startup, system integration
+
+#### What is Systemd?
+
+**Systemd** is Linux's built-in service manager (comes pre-installed on Ubuntu 16.04+, CentOS 7+, etc.). It provides:
+
+- ✅ **Auto-start**: Starts MCP server when system boots
+- ✅ **Auto-restart**: Restarts server if it crashes  
+- ✅ **Easy management**: `sudo systemctl start/stop/restart mcp-atlassian`
+- ✅ **Proper logging**: Integrated with system logs
+- ✅ **Security**: Runs as dedicated user with restricted permissions
+
+#### Why Use Systemd for Production?
+
+| Method | Auto-Start on Boot | Auto-Restart on Crash | Easy Management | Production Ready |
+|--------|-------------------|----------------------|-----------------|------------------|
+| Direct Run | ❌ | ❌ | ❌ | ❌ |
+| nohup | ❌ | ❌ | ❌ | ❌ |
+| **Systemd** | ✅ | ✅ | ✅ | ✅ |
 
 #### Create Service File
 ```bash
@@ -241,9 +283,61 @@ sudo systemctl status mcp-atlassian
 sudo journalctl -u mcp-atlassian -f
 ```
 
-### Option 3: PM2 Process Manager
+## Advanced Options (Optional)
 
-Best for: Node.js environments, advanced process management
+### Screen Session (Development/Testing)
+
+**Best for**: SSH-based development when you need persistent sessions
+
+#### What is Screen?
+
+**Screen** is a terminal multiplexer that's been a standard Unix/Linux utility for decades (comes pre-installed on most systems). It allows you to:
+
+- **Run programs in the background** - Start a process, detach from it, and it keeps running even if you disconnect from SSH
+- **Multiple virtual terminals** - Create multiple terminal sessions within a single SSH connection  
+- **Session persistence** - Your sessions survive network disconnections and can be resumed later
+
+#### When to Use Screen
+
+**Use screen when**:
+- You're developing via SSH and want sessions to persist
+- You need to run multiple terminal sessions
+- You want to easily switch between different tasks
+
+**Don't use screen when**:
+- You just want to run the server (use direct run or nohup instead)
+- You're setting up production (use systemd instead)
+- You're not familiar with terminal multiplexers (stick to simpler options)
+
+#### Installation (if needed)
+```bash
+# Ubuntu/Debian (usually pre-installed)
+sudo apt install screen
+
+# CentOS/RHEL (usually pre-installed)  
+sudo yum install screen
+
+# macOS (usually pre-installed)
+brew install screen  # if needed
+```
+
+#### Usage
+```bash
+# Create new screen session
+screen -S mcp-atlassian
+
+# Run server inside screen
+uv run mcp-atlassian --transport streamable-http --port 9000 --verbose
+
+# Detach from screen (keeps running): Ctrl+A, then D
+# Reattach to session: screen -r mcp-atlassian
+# List all sessions: screen -ls
+# End session: exit (or Ctrl+C to stop server, then exit)
+```
+
+### PM2 Process Manager
+
+**Best for**: Node.js environments, advanced process management
 
 ```bash
 # Install PM2
