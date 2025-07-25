@@ -83,23 +83,43 @@ MCP Atlassian is a mature, feature-complete project that is actively maintained 
 
 ## Current Development Focus 🔄
 
-### Cline Integration (Recently Completed)
+### Remote Machine Deployment (Recently Completed)
+- **✅ Comprehensive Remote Deployment Guides**: Created complete documentation for remote machine deployment
+  - **Non-Docker Guide** (`RUN-REMOTE-MACHINE.md`): Direct source installation approach
+    - Python 3.10+ and UV package manager setup
+    - Multiple deployment options: screen sessions, systemd services, PM2 process manager
+    - Native system integration with direct environment control
+    - Better debugging capabilities and performance optimization
+    - Complete production setup with HTTPS, monitoring, and maintenance
+  - **Docker Guide** (`RUN-REMOTE-MACHINE-DOCKER.md`): Containerized deployment approach
+    - Docker-based deployment with HTTP transport support
+    - Container orchestration and management
+    - Production-ready security and monitoring
+- **✅ HTTP Transport Integration**: Full HTTP access capabilities for remote deployment
+  - **Streamable-HTTP Transport**: Primary transport for HTTP access
+  - **SSE Transport**: Alternative transport option
+  - **Health Endpoints**: Built-in health checks for monitoring
+  - **Multi-User Support**: Per-request authentication for enterprise scenarios
+- **✅ Client Integration Examples**: Complete client implementations
+  - **Python Client**: Full-featured client with authentication support
+  - **JavaScript/Node.js Client**: Complete implementation with error handling
+  - **IDE Integration**: Remote server configuration for Cursor/Claude Desktop
+  - **HTTP API Testing**: Comprehensive curl examples for validation
+- **✅ Production Deployment Features**: Enterprise-ready deployment capabilities
+  - **HTTPS Setup**: Nginx reverse proxy configuration with SSL
+  - **Security Hardening**: Access controls, IP restrictions, and environment security
+  - **Monitoring & Alerting**: Health check scripts and log management
+  - **Update Procedures**: Maintenance and update workflows
+- **✅ File Organization**: Proper guide structure and naming
+  - Non-Docker approach as main guide (better for development and debugging)
+  - Docker approach as alternative (better for production consistency)
+
+### Cline Integration (Previously Completed)
 - **✅ Cline VSCode Extension Integration**: Successfully integrated MCP Atlassian with Cline extension
-  - **Configuration**: `uv run mcp-atlassian --env-file .env --verbose` working correctly
-  - **Local Source Execution**: Direct source execution without Docker dependency
-  - **MCPManager Project Access**: Confirmed connection to SMP project with 3 issues (SMP-1, SMP-2, SMP-7)
-  - **Read Operations Validated**: Search, get issue, project listing, and formatted output all functional
-  - **Write Operations Validated**: Issue transitions, comments, and status management working
-  - **Authentication Confirmed**: API token authentication working properly
-  - **End-to-End Workflow**: Complete JIRA management through Cline demonstrated
-- **✅ Cline Configuration Documentation**: Proven approach for VSCode integration documented
-  - **Working Directory**: `/Users/arsenikonakhau/Desktop/_DEVELOPER_/debug--sooperset-mcp-atlassian`
-  - **Transport**: stdio with verbose logging enabled
-  - **Environment**: Local `.env` file with API token authentication
-- **✅ Real-World Usage Demonstration**: Successfully managed JIRA issues through Cline
-  - **Issue SMP-7**: Transitioned from "In Progress" to "Done" with completion comment
-  - **Project Overview**: Generated formatted tables with issue status and details
-  - **Status Management**: Demonstrated complete issue lifecycle management
+- **✅ Local Source Execution**: Direct source execution without Docker dependency
+- **✅ End-to-End Workflow**: Complete JIRA management through Cline demonstrated
+- **✅ Authentication Confirmed**: API token authentication working properly
+- **✅ Real-World Usage**: Successfully managed JIRA issues through Cline interface
 
 ### Documentation & Knowledge Management (Previously Completed)
 - **✅ Confluence Documentation**: Created comprehensive setup and testing guides in Confluence

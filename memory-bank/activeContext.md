@@ -2,36 +2,50 @@
 
 ## Current Work Focus
 
-### Cline Integration with MCP Atlassian
+### Remote Machine Deployment Guides
+**Status**: ✅ Complete  
+**Goal**: Create comprehensive guides for deploying MCP Atlassian server on remote machines with HTTP access
+
+**Completed**:
+- ✅ Created comprehensive Docker-based remote deployment guide
+  - File: `RUN-REMOTE-MACHINE-DOCKER.md`
+  - Docker container deployment with HTTP transport
+  - Multiple authentication methods (API tokens, PAT, OAuth 2.0)
+  - Single-user and multi-user deployment scenarios
+  - Production security with HTTPS and reverse proxy setup
+  - Health monitoring and maintenance procedures
+- ✅ Created comprehensive non-Docker remote deployment guide
+  - File: `RUN-REMOTE-MACHINE.md` (main guide)
+  - Direct source installation using Python and UV
+  - Multiple deployment options (screen, systemd, PM2)
+  - Full control over Python environment and dependencies
+  - Native system integration and performance optimization
+  - Complete troubleshooting and maintenance sections
+- ✅ Provided client integration examples
+  - Python client with authentication support
+  - JavaScript/Node.js client implementation
+  - IDE integration configurations for remote servers
+  - HTTP API testing examples with curl commands
+- ✅ Documented production deployment patterns
+  - HTTPS setup with Nginx reverse proxy
+  - Security hardening and access controls
+  - Monitoring and alerting configurations
+  - Update and maintenance procedures
+- ✅ File organization completed
+  - `RUN-REMOTE-MACHINE.md`: Non-Docker deployment (main approach)
+  - `RUN-REMOTE-MACHINE-DOCKER.md`: Docker-based deployment (alternative)
+  - Both guides provide complete end-to-end deployment solutions
+
+### Cline Integration with MCP Atlassian (Previous)
 **Status**: ✅ Complete  
 **Goal**: Successfully integrate MCP Atlassian server with Cline extension in VSCode
 
 **Completed**:
 - ✅ Configured Cline MCP settings for local source integration
-  - Configuration: `uv run mcp-atlassian --env-file .env --verbose`
-  - Working directory: `/Users/arsenikonakhau/Desktop/_DEVELOPER_/debug--sooperset-mcp-atlassian`
-  - Transport: stdio with verbose logging enabled
 - ✅ Validated MCP server connection through Cline
-  - Successfully connected to MCPManager project (SMP key)
-  - Retrieved existing issues: SMP-1, SMP-2, SMP-7
-  - Confirmed project details and user authentication
-- ✅ Tested read operations via Cline MCP integration
-  - `jira_search`: Successfully searched MCPManager project issues
-  - `jira_get_issue`: Retrieved detailed issue information
-  - `jira_get_all_projects`: Listed available projects
-  - `jira_get_project_issues`: Retrieved all project issues with formatted output
-- ✅ Tested write operations via Cline MCP integration
-  - `jira_get_transitions`: Retrieved available status transitions for issues
-  - `jira_transition_issue`: Successfully moved SMP-7 from "In Progress" to "Done"
-  - `jira_add_comment`: Added completion comment to transitioned issue
+- ✅ Tested read and write operations via Cline MCP integration
 - ✅ Documented Cline integration approach
-  - Local source execution (no Docker dependency)
-  - UV package manager integration
-  - Verbose logging for debugging and monitoring
-- ✅ Demonstrated end-to-end workflow
-  - Project overview with formatted tables
-  - Issue status management
-  - Real-time JIRA updates through Cline
+- ✅ Demonstrated end-to-end workflow with real JIRA management
 
 ### Documentation & Knowledge Management (Previous)
 **Status**: ✅ Complete  
@@ -72,14 +86,27 @@ Based on the codebase analysis, MCP Atlassian is a mature, production-ready proj
 
 ## Recent Changes
 
-### Cline Integration Success (Latest)
-- **Successful MCP integration**: MCP Atlassian server now working with Cline extension in VSCode
-- **Local source execution**: Using `uv run` command instead of Docker for direct source access
-- **Proven configuration**: Option 2 (verbose logging) successfully implemented
-- **MCPManager project access**: Confirmed connection to SMP project with 5 existing issues
-- **Read operations validated**: Search, get issue, and project listing all working correctly
+### Remote Machine Deployment Guides (Latest)
+- **Comprehensive deployment documentation**: Created two complete guides for remote machine deployment
+- **Non-Docker approach**: Main guide (`RUN-REMOTE-MACHINE.md`) focuses on direct source installation
+  - Python 3.10+ and UV package manager setup
+  - Multiple deployment options: screen sessions, systemd services, PM2 process manager
+  - Native system integration with better debugging and performance
+  - Complete production setup with HTTPS, monitoring, and maintenance
+- **Docker approach**: Alternative guide (`RUN-REMOTE-MACHINE-DOCKER.md`) for containerized deployment
+  - Docker-based deployment with HTTP transport support
+  - Container orchestration and management
+  - Production-ready security and monitoring
+- **Client integration examples**: Complete Python and JavaScript client implementations
+- **IDE integration**: Remote server configuration for Cursor/Claude Desktop
+- **Production readiness**: HTTPS setup, security hardening, and operational procedures
+- **File organization**: Proper naming with non-Docker as main approach, Docker as alternative
+
+### Cline Integration Success (Previous)
+- **Successful MCP integration**: MCP Atlassian server working with Cline extension in VSCode
+- **Local source execution**: Direct source access without Docker dependency
+- **End-to-end workflow**: Complete JIRA management through Cline demonstrated
 - **Authentication confirmed**: API token authentication working properly
-- **Read-only safety**: Current configuration prevents accidental write operations
 
 ### Confluence Documentation Creation (Previous)
 - **Created comprehensive documentation**: Two new Confluence pages in Team Space (TS)
@@ -97,28 +124,29 @@ Based on the codebase analysis, MCP Atlassian is a mature, production-ready proj
 ## Next Steps
 
 ### Immediate Tasks
-1. **Cline Integration Optimization**:
-   - Test write operations by setting `READ_ONLY_MODE=false` when needed
-   - Explore advanced Cline workflows with MCP Atlassian tools
-   - Document best practices for Cline + MCP Atlassian usage
-   - Create example tasks and workflows for common use cases
+1. **Remote Deployment Validation**:
+   - Test both deployment guides on actual remote servers
+   - Validate HTTP transport functionality across different environments
+   - Verify client integration examples work correctly
+   - Test production security configurations
 
-2. **MCP Server Monitoring**:
-   - Monitor MCP server health and performance through Cline integration
-   - Watch for any authentication or connectivity issues
-   - Ensure continued access to all 42 tools (26 Jira + 16 Confluence)
-   - Monitor verbose logging output for optimization opportunities
+2. **Documentation Enhancement**:
+   - Add remote deployment examples to existing Confluence documentation
+   - Create troubleshooting section for remote deployment issues
+   - Document best practices for remote server management
+   - Add performance optimization guidelines for remote deployments
 
-3. **Documentation Updates**:
-   - Update Confluence documentation with Cline integration instructions
-   - Add local source execution examples to existing guides
-   - Document the proven Cline configuration approach
-   - Create troubleshooting section for Cline-specific issues
+3. **Integration Testing**:
+   - Test IDE integration with remote servers
+   - Validate authentication flows in multi-user scenarios
+   - Test proxy configurations and enterprise network setups
+   - Verify HTTPS and security configurations
 
 4. **Memory Bank Maintenance**:
-   - Monitor for project changes that require memory bank updates
-   - Keep documentation current with codebase evolution
-   - Review and refine memory bank content based on Cline usage patterns
+   - Update progress tracking with remote deployment capabilities
+   - Document new deployment patterns and configurations
+   - Keep documentation current with latest deployment options
+   - Review and refine memory bank content based on remote deployment usage
 
 ### Future Considerations
 - Monitor for new feature development
@@ -171,12 +199,25 @@ Based on the codebase analysis, MCP Atlassian is a mature, production-ready proj
 - **Cline Integration**: Local source execution via `uv run mcp-atlassian --env-file .env --verbose`
 - **Project Access**: MCPManager project (SMP) with 5 existing issues confirmed accessible
 
-### Cline Configuration Details
+### Remote Deployment Capabilities
+- **Non-Docker Deployment**: Direct source installation with Python and UV
+  - **Guide**: `RUN-REMOTE-MACHINE.md` (main approach)
+  - **Deployment Options**: screen, systemd, PM2 process management
+  - **Advantages**: Direct environment control, easier debugging, native performance
+- **Docker Deployment**: Containerized deployment for consistency
+  - **Guide**: `RUN-REMOTE-MACHINE-DOCKER.md` (alternative approach)
+  - **Transport**: HTTP (streamable-HTTP and SSE)
+  - **Security**: HTTPS with reverse proxy, access controls, monitoring
+- **Client Integration**: Python and JavaScript clients with authentication
+- **IDE Support**: Remote server configuration for Cursor/Claude Desktop
+- **Production Features**: Health monitoring, log management, update procedures
+
+### Cline Configuration Details (Local Development)
 - **Command**: `uv run mcp-atlassian --env-file .env --verbose`
 - **Working Directory**: `/Users/arsenikonakhau/Desktop/_DEVELOPER_/debug--sooperset-mcp-atlassian`
 - **Transport**: stdio with verbose logging
 - **Environment**: Local `.env` file with API token authentication
-- **Project**: MCPManager (SMP key) - 5 issues (SMP-1 through SMP-6)
+- **Project**: MCPManager (SMP key) - Issues SMP-1, SMP-2, SMP-7
 
 ### Key Files to Monitor
 - `src/mcp_atlassian/servers/main.py` - Main server implementation and tool filtering
