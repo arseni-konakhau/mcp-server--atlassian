@@ -3,7 +3,7 @@
 ## Current Work Focus
 
 ### Remote Machine Deployment Guides
-**Status**: ✅ Complete  
+**Status**: ✅ Complete & Optimized  
 **Goal**: Create comprehensive guides for deploying MCP Atlassian server on remote machines with HTTP access
 
 **Completed**:
@@ -14,13 +14,24 @@
   - Single-user and multi-user deployment scenarios
   - Production security with HTTPS and reverse proxy setup
   - Health monitoring and maintenance procedures
-- ✅ Created comprehensive non-Docker remote deployment guide
+- ✅ Created and optimized non-Docker remote deployment guide
   - File: `RUN-REMOTE-MACHINE.md` (main guide)
-  - Direct source installation using Python and UV
-  - Multiple deployment options (screen, systemd, PM2)
+  - **Restructured for simplicity**: Emphasizes simplest approaches first
+  - **Progressive complexity**: Direct run → nohup → systemd → advanced options
+  - **Beginner-friendly explanations**: Clear explanations of systemd and screen tools
+  - **Simplified deployment options**:
+    1. **Direct Run (Simplest)**: One command for immediate testing
+    2. **Background Process (Simple)**: nohup for persistence without complexity
+    3. **Systemd Service (Production)**: Proper production setup with detailed explanations
+  - **Advanced Options (Optional)**: Screen and PM2 moved to separate section
   - Full control over Python environment and dependencies
   - Native system integration and performance optimization
   - Complete troubleshooting and maintenance sections
+- ✅ Enhanced user experience based on feedback
+  - **Immediate accessibility**: Users see deployment is as simple as one command
+  - **Clear decision guidance**: "Best for" recommendations and pros/cons for each method
+  - **Tool explanations**: Detailed explanations of unfamiliar tools (screen, systemd)
+  - **When to use guidance**: Clear recommendations on when NOT to use certain approaches
 - ✅ Provided client integration examples
   - Python client with authentication support
   - JavaScript/Node.js client implementation
@@ -32,7 +43,7 @@
   - Monitoring and alerting configurations
   - Update and maintenance procedures
 - ✅ File organization completed
-  - `RUN-REMOTE-MACHINE.md`: Non-Docker deployment (main approach)
+  - `RUN-REMOTE-MACHINE.md`: Non-Docker deployment (main approach, optimized for simplicity)
   - `RUN-REMOTE-MACHINE-DOCKER.md`: Docker-based deployment (alternative)
   - Both guides provide complete end-to-end deployment solutions
 

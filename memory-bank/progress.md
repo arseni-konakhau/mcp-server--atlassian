@@ -83,11 +83,18 @@ MCP Atlassian is a mature, feature-complete project that is actively maintained 
 
 ## Current Development Focus 🔄
 
-### Remote Machine Deployment (Recently Completed)
+### Remote Machine Deployment (Recently Completed & Optimized)
 - **✅ Comprehensive Remote Deployment Guides**: Created complete documentation for remote machine deployment
   - **Non-Docker Guide** (`RUN-REMOTE-MACHINE.md`): Direct source installation approach
+    - **Restructured for simplicity**: Emphasizes simplest approaches first
+    - **Progressive complexity**: Direct run → nohup → systemd → advanced options
+    - **Beginner-friendly explanations**: Clear explanations of systemd and screen tools
     - Python 3.10+ and UV package manager setup
-    - Multiple deployment options: screen sessions, systemd services, PM2 process manager
+    - **Simplified deployment options**:
+      1. **Direct Run (Simplest)**: One command for immediate testing
+      2. **Background Process (Simple)**: nohup for persistence without complexity
+      3. **Systemd Service (Production)**: Proper production setup with detailed explanations
+    - **Advanced Options (Optional)**: Screen and PM2 moved to separate section
     - Native system integration with direct environment control
     - Better debugging capabilities and performance optimization
     - Complete production setup with HTTPS, monitoring, and maintenance
@@ -95,6 +102,11 @@ MCP Atlassian is a mature, feature-complete project that is actively maintained 
     - Docker-based deployment with HTTP transport support
     - Container orchestration and management
     - Production-ready security and monitoring
+- **✅ Enhanced User Experience**: Optimized based on user feedback
+  - **Immediate accessibility**: Users see deployment is as simple as one command
+  - **Clear decision guidance**: "Best for" recommendations and pros/cons for each method
+  - **Tool explanations**: Detailed explanations of unfamiliar tools (screen, systemd)
+  - **When to use guidance**: Clear recommendations on when NOT to use certain approaches
 - **✅ HTTP Transport Integration**: Full HTTP access capabilities for remote deployment
   - **Streamable-HTTP Transport**: Primary transport for HTTP access
   - **SSE Transport**: Alternative transport option
@@ -111,7 +123,7 @@ MCP Atlassian is a mature, feature-complete project that is actively maintained 
   - **Monitoring & Alerting**: Health check scripts and log management
   - **Update Procedures**: Maintenance and update workflows
 - **✅ File Organization**: Proper guide structure and naming
-  - Non-Docker approach as main guide (better for development and debugging)
+  - Non-Docker approach as main guide (optimized for simplicity and accessibility)
   - Docker approach as alternative (better for production consistency)
 
 ### Cline Integration (Previously Completed)
