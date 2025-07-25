@@ -83,48 +83,41 @@ MCP Atlassian is a mature, feature-complete project that is actively maintained 
 
 ## Current Development Focus 🔄
 
-### Remote Machine Deployment (Recently Completed & Optimized)
-- **✅ Comprehensive Remote Deployment Guides**: Created complete documentation for remote machine deployment
-  - **Non-Docker Guide** (`RUN-REMOTE-MACHINE.md`): Direct source installation approach
-    - **Restructured for simplicity**: Emphasizes simplest approaches first
-    - **Progressive complexity**: Direct run → nohup → systemd → advanced options
-    - **Beginner-friendly explanations**: Clear explanations of systemd and screen tools
+### Comprehensive Deployment Guide (Recently Completed)
+- **✅ Unified Deployment Documentation**: Created single comprehensive guide combining all deployment approaches
+  - **File**: `DEPLOY.md` (replaces three separate guides: `RUN-REMOTE-MACHINE.md`, `RUN-REMOTE-MACHINE-DOCKER.md`, `REMOTE_DEPLOYMENT_GUIDE.md`)
+  - **Progressive complexity structure**: Quick start → basic config → advanced config → production
+  - **Eliminated redundancy**: Combined all valuable content while removing overlap
+  - **Enhanced user experience**: 5-step quick start process for immediate deployment
+- **✅ Both Deployment Methods in One Guide**: Docker and direct installation approaches
+  - **Docker Deployment**: Production consistency with containerization
+    - Docker Compose configurations
+    - Volume mounts for persistent data
+    - Container security and resource limits
+  - **Direct Installation**: Development control with native system integration
     - Python 3.10+ and UV package manager setup
-    - **Simplified deployment options**:
-      1. **Direct Run (Simplest)**: One command for immediate testing
-      2. **Background Process (Simple)**: nohup for persistence without complexity
-      3. **Systemd Service (Production)**: Proper production setup with detailed explanations
-    - **Advanced Options (Optional)**: Screen and PM2 moved to separate section
-    - Native system integration with direct environment control
+    - Multiple process management options (nohup, systemd, screen, PM2)
     - Better debugging capabilities and performance optimization
-    - Complete production setup with HTTPS, monitoring, and maintenance
-  - **Docker Guide** (`RUN-REMOTE-MACHINE-DOCKER.md`): Containerized deployment approach
-    - Docker-based deployment with HTTP transport support
-    - Container orchestration and management
-    - Production-ready security and monitoring
-- **✅ Enhanced User Experience**: Optimized based on user feedback
-  - **Immediate accessibility**: Users see deployment is as simple as one command
-  - **Clear decision guidance**: "Best for" recommendations and pros/cons for each method
-  - **Tool explanations**: Detailed explanations of unfamiliar tools (screen, systemd)
-  - **When to use guidance**: Clear recommendations on when NOT to use certain approaches
-- **✅ HTTP Transport Integration**: Full HTTP access capabilities for remote deployment
-  - **Streamable-HTTP Transport**: Primary transport for HTTP access
-  - **SSE Transport**: Alternative transport option
-  - **Health Endpoints**: Built-in health checks for monitoring
-  - **Multi-User Support**: Per-request authentication for enterprise scenarios
-- **✅ Client Integration Examples**: Complete client implementations
-  - **Python Client**: Full-featured client with authentication support
+- **✅ Progressive Configuration Options**: Simple to enterprise-grade
+  - **Basic configurations**: Minimal setup for quick testing
+  - **Advanced configurations**: Enterprise features, proxy support, custom headers
+  - **Multi-user configurations**: OAuth 2.0 and per-request authentication
+  - **Security configurations**: Access controls, SSL, and hardening
+- **✅ Complete Integration Coverage**: All client and production scenarios
+  - **HTTP API Testing**: Comprehensive curl examples for validation
+  - **Python Client**: Full-featured async client with authentication support
   - **JavaScript/Node.js Client**: Complete implementation with error handling
   - **IDE Integration**: Remote server configuration for Cursor/Claude Desktop
-  - **HTTP API Testing**: Comprehensive curl examples for validation
-- **✅ Production Deployment Features**: Enterprise-ready deployment capabilities
-  - **HTTPS Setup**: Nginx reverse proxy configuration with SSL
-  - **Security Hardening**: Access controls, IP restrictions, and environment security
-  - **Monitoring & Alerting**: Health check scripts and log management
-  - **Update Procedures**: Maintenance and update workflows
-- **✅ File Organization**: Proper guide structure and naming
-  - Non-Docker approach as main guide (optimized for simplicity and accessibility)
-  - Docker approach as alternative (better for production consistency)
+- **✅ Production-Ready Features**: Enterprise deployment capabilities
+  - **HTTPS Setup**: Nginx reverse proxy configuration with SSL/TLS
+  - **Security Hardening**: Firewall, access controls, and environment security
+  - **Monitoring & Maintenance**: Health checks, log management, update procedures
+  - **Performance Optimization**: System tuning and application configuration
+- **✅ Comprehensive Troubleshooting**: Complete problem-solving coverage
+  - **Common issues**: Service startup, authentication, network connectivity
+  - **Debug modes**: Maximum verbosity and component testing
+  - **Performance issues**: Resource monitoring and optimization
+  - **Getting help**: Clear escalation paths and support resources
 
 ### Cline Integration (Previously Completed)
 - **✅ Cline VSCode Extension Integration**: Successfully integrated MCP Atlassian with Cline extension

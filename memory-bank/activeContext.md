@@ -2,50 +2,36 @@
 
 ## Current Work Focus
 
-### Remote Machine Deployment Guides
-**Status**: ✅ Complete & Optimized  
-**Goal**: Create comprehensive guides for deploying MCP Atlassian server on remote machines with HTTP access
+### Comprehensive Deployment Guide
+**Status**: ✅ Complete & Unified  
+**Goal**: Create a single comprehensive deployment guide combining Docker and non-Docker approaches with progressive complexity
 
 **Completed**:
-- ✅ Created comprehensive Docker-based remote deployment guide
-  - File: `RUN-REMOTE-MACHINE-DOCKER.md`
-  - Docker container deployment with HTTP transport
-  - Multiple authentication methods (API tokens, PAT, OAuth 2.0)
-  - Single-user and multi-user deployment scenarios
-  - Production security with HTTPS and reverse proxy setup
-  - Health monitoring and maintenance procedures
-- ✅ Created and optimized non-Docker remote deployment guide
-  - File: `RUN-REMOTE-MACHINE.md` (main guide)
-  - **Restructured for simplicity**: Emphasizes simplest approaches first
-  - **Progressive complexity**: Direct run → nohup → systemd → advanced options
-  - **Beginner-friendly explanations**: Clear explanations of systemd and screen tools
-  - **Simplified deployment options**:
-    1. **Direct Run (Simplest)**: One command for immediate testing
-    2. **Background Process (Simple)**: nohup for persistence without complexity
-    3. **Systemd Service (Production)**: Proper production setup with detailed explanations
-  - **Advanced Options (Optional)**: Screen and PM2 moved to separate section
-  - Full control over Python environment and dependencies
-  - Native system integration and performance optimization
-  - Complete troubleshooting and maintenance sections
-- ✅ Enhanced user experience based on feedback
-  - **Immediate accessibility**: Users see deployment is as simple as one command
-  - **Clear decision guidance**: "Best for" recommendations and pros/cons for each method
-  - **Tool explanations**: Detailed explanations of unfamiliar tools (screen, systemd)
-  - **When to use guidance**: Clear recommendations on when NOT to use certain approaches
-- ✅ Provided client integration examples
-  - Python client with authentication support
-  - JavaScript/Node.js client implementation
-  - IDE integration configurations for remote servers
-  - HTTP API testing examples with curl commands
-- ✅ Documented production deployment patterns
-  - HTTPS setup with Nginx reverse proxy
-  - Security hardening and access controls
-  - Monitoring and alerting configurations
-  - Update and maintenance procedures
-- ✅ File organization completed
-  - `RUN-REMOTE-MACHINE.md`: Non-Docker deployment (main approach, optimized for simplicity)
-  - `RUN-REMOTE-MACHINE-DOCKER.md`: Docker-based deployment (alternative)
-  - Both guides provide complete end-to-end deployment solutions
+- ✅ Created unified comprehensive deployment guide
+  - File: `DEPLOY.md` (replaces three separate guides)
+  - **Combined all approaches**: Docker and direct installation in one document
+  - **Progressive complexity**: Quick start → basic config → advanced config → production
+  - **Eliminated redundancy**: Unified content from `RUN-REMOTE-MACHINE.md`, `RUN-REMOTE-MACHINE-DOCKER.md`, and `REMOTE_DEPLOYMENT_GUIDE.md`
+- ✅ Enhanced user experience with unified structure
+  - **Quick Start section**: 5-step process to get running immediately
+  - **Simple configurations first**: Basic setups before advanced enterprise features
+  - **Clear decision guidance**: When to use Docker vs. direct installation
+  - **Progressive enhancement**: Add complexity only when needed
+- ✅ Comprehensive coverage in single document
+  - **Both deployment methods**: Docker (production consistency) and direct installation (development control)
+  - **All authentication methods**: API tokens, Personal Access Tokens, OAuth 2.0
+  - **Complete configuration options**: From basic to enterprise-grade
+  - **Client integration examples**: Python, JavaScript, IDE configurations
+  - **Production setup**: HTTPS, security hardening, monitoring, maintenance
+- ✅ Proper organization and markup
+  - **Clear table of contents** with logical flow
+  - **Step-by-step instructions** for each deployment method
+  - **Code examples** with proper syntax highlighting
+  - **Troubleshooting section** with common issues and solutions
+- ✅ File consolidation completed
+  - `DEPLOY.md`: Single comprehensive guide (replaces three separate files)
+  - Maintains all valuable content while eliminating overlap
+  - Better user experience with unified approach
 
 ### Cline Integration with MCP Atlassian (Previous)
 **Status**: ✅ Complete  
