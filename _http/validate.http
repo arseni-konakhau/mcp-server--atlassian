@@ -54,7 +54,7 @@ Content-Type: application/json
 # "mcp-session-id" header in all subsequent requests. Copy the session ID
 # from the initialize response and use it in the @sessionId variable below.
 
-@sessionId = 388b476b68cf4cf99b3f2eb56d93fcb9
+@sessionId = 2da6666614bb4bbd96fa4c71d42797db
 
 ### 1. Initialize MCP Session
 POST {{baseUrl}}/mcp
@@ -88,6 +88,18 @@ mcp-session-id: {{sessionId}}
   "method": "notifications/initialized",
   "params": {}
 }
+
+
+
+
+
+
+
+
+
+
+
+
 
 ### 2. List Available Tools
 POST {{baseUrl}}/mcp
@@ -134,7 +146,7 @@ mcp-session-id: {{sessionId}}
   "params": {
     "name": "jira_get_issue",
     "arguments": {
-      "issue_key": "PROJ-123"
+      "issue_key": "SMP-1"
     }
   }
 }
