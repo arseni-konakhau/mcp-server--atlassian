@@ -49,6 +49,12 @@ Content-Type: application/json
 # "application/json" and "text/event-stream" to avoid 406 Not Acceptable errors.
 # The FastMCP framework requires clients to accept both content types for
 # proper content negotiation between regular JSON and streaming responses.
+#
+# SESSION MANAGEMENT: After initializing the session, you MUST include the
+# "mcp-session-id" header in all subsequent requests. Copy the session ID
+# from the initialize response and use it in the @sessionId variable below.
+
+@sessionId = 6ef813543dc440988c85e5bef0c5cf10
 
 ### 1. Initialize MCP Session
 POST {{baseUrl}}/mcp
@@ -75,6 +81,7 @@ Accept: application/json, text/event-stream
 POST {{baseUrl}}/mcp
 Content-Type: application/json
 Accept: application/json, text/event-stream
+mcp-session-id: {{sessionId}}
 
 {
   "jsonrpc": "2.0",
@@ -87,6 +94,7 @@ Accept: application/json, text/event-stream
 POST {{baseUrl}}/mcp
 Content-Type: application/json
 Accept: application/json, text/event-stream
+mcp-session-id: {{sessionId}}
 
 {
   "jsonrpc": "2.0",
@@ -105,6 +113,7 @@ Accept: application/json, text/event-stream
 POST {{baseUrl}}/mcp
 Content-Type: application/json
 Accept: application/json, text/event-stream
+mcp-session-id: {{sessionId}}
 
 {
   "jsonrpc": "2.0",
@@ -122,6 +131,7 @@ Accept: application/json, text/event-stream
 POST {{baseUrl}}/mcp
 Content-Type: application/json
 Accept: application/json, text/event-stream
+mcp-session-id: {{sessionId}}
 
 {
   "jsonrpc": "2.0",
@@ -137,6 +147,7 @@ Accept: application/json, text/event-stream
 POST {{baseUrl}}/mcp
 Content-Type: application/json
 Accept: application/json, text/event-stream
+mcp-session-id: {{sessionId}}
 
 {
   "jsonrpc": "2.0",
@@ -155,6 +166,7 @@ Accept: application/json, text/event-stream
 POST {{baseUrl}}/mcp
 Content-Type: application/json
 Accept: application/json, text/event-stream
+mcp-session-id: {{sessionId}}
 
 {
   "jsonrpc": "2.0",
@@ -172,6 +184,7 @@ Accept: application/json, text/event-stream
 POST {{baseUrl}}/mcp
 Content-Type: application/json
 Accept: application/json, text/event-stream
+mcp-session-id: {{sessionId}}
 
 {
   "jsonrpc": "2.0",
@@ -195,6 +208,7 @@ Accept: application/json, text/event-stream
 POST {{baseUrl}}/mcp
 Content-Type: application/json
 Accept: application/json, text/event-stream
+mcp-session-id: {{sessionId}}
 Authorization: Bearer YOUR_OAUTH_ACCESS_TOKEN
 X-Atlassian-Cloud-Id: YOUR_CLOUD_ID
 
@@ -215,6 +229,7 @@ X-Atlassian-Cloud-Id: YOUR_CLOUD_ID
 POST {{baseUrl}}/mcp
 Content-Type: application/json
 Accept: application/json, text/event-stream
+mcp-session-id: {{sessionId}}
 Authorization: Token YOUR_PERSONAL_ACCESS_TOKEN
 
 {
@@ -234,6 +249,7 @@ Authorization: Token YOUR_PERSONAL_ACCESS_TOKEN
 POST {{baseUrl}}/mcp
 Content-Type: application/json
 Accept: application/json, text/event-stream
+mcp-session-id: {{sessionId}}
 Authorization: Bearer YOUR_OAUTH_ACCESS_TOKEN
 X-Atlassian-Cloud-Id: YOUR_CLOUD_ID
 
@@ -259,6 +275,7 @@ X-Atlassian-Cloud-Id: YOUR_CLOUD_ID
 POST {{baseUrl}}/mcp
 Content-Type: application/json
 Accept: application/json, text/event-stream
+mcp-session-id: {{sessionId}}
 Authorization: Bearer YOUR_OAUTH_ACCESS_TOKEN
 
 {
@@ -280,6 +297,7 @@ Authorization: Bearer YOUR_OAUTH_ACCESS_TOKEN
 POST {{baseUrl}}/mcp
 Content-Type: application/json
 Accept: application/json, text/event-stream
+mcp-session-id: {{sessionId}}
 Authorization: Bearer YOUR_OAUTH_ACCESS_TOKEN
 
 {
@@ -300,6 +318,7 @@ Authorization: Bearer YOUR_OAUTH_ACCESS_TOKEN
 POST {{baseUrl}}/mcp
 Content-Type: application/json
 Accept: application/json, text/event-stream
+mcp-session-id: {{sessionId}}
 Authorization: Bearer YOUR_OAUTH_ACCESS_TOKEN
 
 {
@@ -319,6 +338,7 @@ Authorization: Bearer YOUR_OAUTH_ACCESS_TOKEN
 POST {{baseUrl}}/mcp
 Content-Type: application/json
 Accept: application/json, text/event-stream
+mcp-session-id: {{sessionId}}
 Authorization: Bearer YOUR_OAUTH_ACCESS_TOKEN
 
 {
@@ -339,6 +359,7 @@ Authorization: Bearer YOUR_OAUTH_ACCESS_TOKEN
 POST {{baseUrl}}/mcp
 Content-Type: application/json
 Accept: application/json, text/event-stream
+mcp-session-id: {{sessionId}}
 Authorization: Bearer YOUR_OAUTH_ACCESS_TOKEN
 
 {
@@ -364,6 +385,7 @@ Authorization: Bearer YOUR_OAUTH_ACCESS_TOKEN
 POST {{baseUrl}}/mcp
 Content-Type: application/json
 Accept: application/json, text/event-stream
+mcp-session-id: {{sessionId}}
 
 {
   "jsonrpc": "2.0",
@@ -379,6 +401,7 @@ Accept: application/json, text/event-stream
 POST {{baseUrl}}/mcp
 Content-Type: application/json
 Accept: application/json, text/event-stream
+mcp-session-id: {{sessionId}}
 
 {
   "jsonrpc": "2.0",
@@ -394,6 +417,7 @@ Accept: application/json, text/event-stream
 POST {{baseUrl}}/mcp
 Content-Type: application/json
 Accept: application/json, text/event-stream
+mcp-session-id: {{sessionId}}
 
 {
   "jsonrpc": "2.0",
