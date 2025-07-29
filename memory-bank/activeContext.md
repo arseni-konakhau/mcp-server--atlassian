@@ -2,20 +2,27 @@
 
 ## Current Work Focus
 
-### HTTP Transport Validation & Remote Deployment
+### HTTP Transport Validation & Tool Correction
 **Status**: ✅ Complete  
-**Goal**: Validate HTTP transport functionality and create comprehensive validation tools for remote deployment
+**Goal**: Validate HTTP transport functionality and correct tool examples based on actual available tools
 
 **Completed**:
 - ✅ **HTTP Transport Protocol Analysis**: Identified and resolved MCP protocol initialization issues
   - **Root Cause**: Missing `notifications/initialized` step in MCP handshake sequence
   - **Solution**: Added required initialization notification after `initialize` request
   - **Protocol Compliance**: Full MCP protocol handshake now working correctly
-- ✅ **HTTP Validation File Creation**: Created comprehensive `_http/validate.http` file
+- ✅ **Tool Name Validation & Correction**: Updated `_http/validate.http` with correct tool names and parameters
+  - **Tool Name Fixes**: `jira_search_issues` → `jira_search`, `jira_list_projects` → `jira_get_all_projects`
+  - **Parameter Corrections**: `max_results` → `limit`, `transition_name` → `transition_id`
+  - **Structure Fixes**: Fixed `jira_update_issue` to use proper `fields` parameter structure
+  - **Real Examples**: Updated with actual SMP project keys and issue numbers (SMP-1)
+  - **Enhanced Coverage**: Added examples for `jira_get_user_profile` and advanced field selections
+- ✅ **HTTP Validation File Enhancement**: Created production-ready `_http/validate.http` file
   - **Complete MCP workflow**: Initialize → Notify → Tools List → Tool Calls
   - **Session management**: Proper session ID handling and reuse
   - **Content negotiation**: Correct Accept headers for FastMCP framework
   - **Authentication examples**: OAuth, PAT, and multi-user authentication patterns
+  - **Valid Tool Examples**: All examples now use correct tool names from actual server implementation
 - ✅ **Remote Deployment Readiness**: HTTP transport fully validated for remote server deployment
   - **Transport command**: `uv run mcp-atlassian --transport streamable-http --port 9000 --env-file .env --verbose`
   - **Client compatibility**: Ready for external client connections

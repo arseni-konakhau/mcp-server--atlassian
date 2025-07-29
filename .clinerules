@@ -212,8 +212,13 @@ REMEMBER: After every memory reset, I begin completely fresh. The Memory Bank is
   3. Tools and operations available after proper handshake
 - **Session Management**: HTTP sessions require proper session ID handling and reuse across requests
 - **Content Negotiation**: Must include `Accept: application/json, text/event-stream` headers for FastMCP framework
+- **Tool Validation Process**: CRITICAL - Always validate tool names and parameters against actual server implementation
+  - **Common Mistakes**: `jira_search_issues` (wrong) → `jira_search` (correct)
+  - **Parameter Mismatches**: `max_results` (wrong) → `limit` (correct), `transition_name` (wrong) → `transition_id` (correct)
+  - **Structure Issues**: `jira_update_issue` requires `fields` parameter as dictionary, not flat parameters
+  - **Validation Method**: Use `tools/list` MCP call to get actual available tools and their schemas
 - **Remote Deployment Readiness**: HTTP transport fully validated for external client connections and remote server deployment
-- **Validation Tools**: `_http/validate.http` provides comprehensive testing workflow for HTTP transport validation
+- **Validation Tools**: `_http/validate.http` provides comprehensive testing workflow with CORRECT tool examples validated against actual server
 
 ### Cline Integration Success Factors
 - **Command Reliability**: `uv run mcp-atlassian --env-file .env --verbose` is the proven working command

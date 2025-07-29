@@ -83,7 +83,7 @@ MCP Atlassian is a mature, feature-complete project that is actively maintained 
 
 ## Current Development Focus 🔄
 
-### HTTP Transport Validation & Remote Deployment (Latest Completed)
+### HTTP Transport Validation & Tool Correction (Latest Completed)
 - **✅ HTTP Transport Protocol Mastery**: Successfully resolved MCP protocol initialization issues
   - **Root Cause Identified**: Missing `notifications/initialized` step in MCP handshake sequence
   - **Protocol Compliance Achieved**: Complete 3-step initialization process now working
@@ -91,23 +91,32 @@ MCP Atlassian is a mature, feature-complete project that is actively maintained 
     - Step 2: `notifications/initialized` notification (CRITICAL missing step)
     - Step 3: Tools and operations available after proper handshake
   - **Error Resolution**: Fixed "Invalid request parameters" and "initialization incomplete" errors
+- **✅ Tool Name Validation & Correction**: Updated HTTP validation examples with correct tool names and parameters
+  - **Tool Name Fixes**: Corrected `jira_search_issues` → `jira_search`, `jira_list_projects` → `jira_get_all_projects`
+  - **Parameter Corrections**: Fixed `max_results` → `limit`, `transition_name` → `transition_id`
+  - **Structure Fixes**: Corrected `jira_update_issue` to use proper `fields` parameter structure
+  - **Real Examples**: Updated with actual SMP project keys and issue numbers (SMP-1)
+  - **Enhanced Coverage**: Added examples for `jira_get_user_profile` and advanced field selections
+  - **Validation Against Actual Tools**: All examples now match the actual available tools from server implementation
 - **✅ Comprehensive HTTP Validation Tools**: Created production-ready `_http/validate.http` file
   - **Complete MCP workflow examples**: Initialize → Notify → Tools List → Tool Calls
   - **Session management patterns**: Proper session ID handling and reuse across requests
   - **Content negotiation**: Correct Accept headers for FastMCP framework compatibility
   - **Authentication examples**: OAuth 2.0, Personal Access Tokens, and multi-user patterns
+  - **Valid Tool Examples**: All tool calls now use correct names and parameters from actual server
   - **Error handling examples**: Invalid tools, missing parameters, malformed requests
   - **Production testing**: curl examples and comprehensive troubleshooting guide
 - **✅ Remote Deployment Readiness**: HTTP transport fully validated for external client connections
   - **Transport command**: `uv run mcp-atlassian --transport streamable-http --port 9000 --env-file .env --verbose`
   - **Client compatibility**: Ready for remote server deployment and external client connections
-  - **Production validation**: Complete testing workflow for remote deployments
+  - **Production validation**: Complete testing workflow for remote deployments with correct tool examples
   - **Multi-user support**: Authentication headers and per-request token management
 - **✅ MCP Protocol Deep Understanding**: Documented complete initialization sequence and common pitfalls
   - **Session lifecycle**: Proper session creation, management, and cleanup
   - **Transport specifics**: HTTP vs stdio transport differences and requirements
   - **FastMCP integration**: Framework-specific requirements for content negotiation
   - **Debugging techniques**: Verbose logging and error interpretation for HTTP transport
+  - **Tool Validation**: Process for ensuring examples match actual server implementation
 
 ### Comprehensive Deployment Guide (Previously Completed)
 - **✅ Unified Deployment Documentation**: Created single comprehensive guide combining all deployment approaches
