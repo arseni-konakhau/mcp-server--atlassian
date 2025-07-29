@@ -54,7 +54,7 @@ Content-Type: application/json
 # "mcp-session-id" header in all subsequent requests. Copy the session ID
 # from the initialize response and use it in the @sessionId variable below.
 
-@sessionId = 6ef813543dc440988c85e5bef0c5cf10
+@sessionId = 388b476b68cf4cf99b3f2eb56d93fcb9
 
 ### 1. Initialize MCP Session
 POST {{baseUrl}}/mcp
@@ -77,6 +77,18 @@ Accept: application/json, text/event-stream
   }
 }
 
+### 1a. Send Initialized Notification (REQUIRED after initialize)
+POST {{baseUrl}}/mcp
+Content-Type: application/json
+Accept: application/json, text/event-stream
+mcp-session-id: {{sessionId}}
+
+{
+  "jsonrpc": "2.0",
+  "method": "notifications/initialized",
+  "params": {}
+}
+
 ### 2. List Available Tools
 POST {{baseUrl}}/mcp
 Content-Type: application/json
@@ -86,18 +98,6 @@ mcp-session-id: {{sessionId}}
 {
   "jsonrpc": "2.0",
   "id": 2,
-  "method": "tools/list",
-  "params": {}
-}
-
-### 2a. Alternative Tools List (without session ID for debugging)
-POST {{baseUrl}}/mcp
-Content-Type: application/json
-Accept: application/json, text/event-stream
-
-{
-  "jsonrpc": "2.0",
-  "id": "2a",
   "method": "tools/list",
   "params": {}
 }
