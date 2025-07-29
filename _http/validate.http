@@ -90,6 +90,18 @@ mcp-session-id: {{sessionId}}
   "params": {}
 }
 
+### 2a. Alternative Tools List (without session ID for debugging)
+POST {{baseUrl}}/mcp
+Content-Type: application/json
+Accept: application/json, text/event-stream
+
+{
+  "jsonrpc": "2.0",
+  "id": "2a",
+  "method": "tools/list",
+  "params": {}
+}
+
 ### 3. Get Tool Schema - Jira Search
 POST {{baseUrl}}/mcp
 Content-Type: application/json
