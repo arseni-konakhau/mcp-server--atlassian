@@ -204,6 +204,17 @@ REMEMBER: After every memory reset, I begin completely fresh. The Memory Bank is
   - Best for: troubleshooting when simple_test.py fails, component isolation, advanced debugging
 - **Both scripts serve different purposes**: Keep both - simple for daily use, manual for debugging
 
+### HTTP Transport & Remote Deployment Patterns
+- **HTTP Transport Command**: `uv run mcp-atlassian --transport streamable-http --port 9000 --env-file .env --verbose` is the proven working command for remote deployment
+- **MCP Protocol Initialization**: CRITICAL 3-step handshake sequence required:
+  1. `initialize` request with client capabilities
+  2. `notifications/initialized` notification (MISSING THIS CAUSES "Invalid request parameters" ERROR)
+  3. Tools and operations available after proper handshake
+- **Session Management**: HTTP sessions require proper session ID handling and reuse across requests
+- **Content Negotiation**: Must include `Accept: application/json, text/event-stream` headers for FastMCP framework
+- **Remote Deployment Readiness**: HTTP transport fully validated for external client connections and remote server deployment
+- **Validation Tools**: `_http/validate.http` provides comprehensive testing workflow for HTTP transport validation
+
 ### Cline Integration Success Factors
 - **Command Reliability**: `uv run mcp-atlassian --env-file .env --verbose` is the proven working command
 - **Authentication Method**: API token authentication (username + token) works reliably

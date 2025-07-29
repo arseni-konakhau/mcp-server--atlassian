@@ -83,7 +83,33 @@ MCP Atlassian is a mature, feature-complete project that is actively maintained 
 
 ## Current Development Focus 🔄
 
-### Comprehensive Deployment Guide (Recently Completed)
+### HTTP Transport Validation & Remote Deployment (Latest Completed)
+- **✅ HTTP Transport Protocol Mastery**: Successfully resolved MCP protocol initialization issues
+  - **Root Cause Identified**: Missing `notifications/initialized` step in MCP handshake sequence
+  - **Protocol Compliance Achieved**: Complete 3-step initialization process now working
+    - Step 1: `initialize` request with client capabilities
+    - Step 2: `notifications/initialized` notification (CRITICAL missing step)
+    - Step 3: Tools and operations available after proper handshake
+  - **Error Resolution**: Fixed "Invalid request parameters" and "initialization incomplete" errors
+- **✅ Comprehensive HTTP Validation Tools**: Created production-ready `_http/validate.http` file
+  - **Complete MCP workflow examples**: Initialize → Notify → Tools List → Tool Calls
+  - **Session management patterns**: Proper session ID handling and reuse across requests
+  - **Content negotiation**: Correct Accept headers for FastMCP framework compatibility
+  - **Authentication examples**: OAuth 2.0, Personal Access Tokens, and multi-user patterns
+  - **Error handling examples**: Invalid tools, missing parameters, malformed requests
+  - **Production testing**: curl examples and comprehensive troubleshooting guide
+- **✅ Remote Deployment Readiness**: HTTP transport fully validated for external client connections
+  - **Transport command**: `uv run mcp-atlassian --transport streamable-http --port 9000 --env-file .env --verbose`
+  - **Client compatibility**: Ready for remote server deployment and external client connections
+  - **Production validation**: Complete testing workflow for remote deployments
+  - **Multi-user support**: Authentication headers and per-request token management
+- **✅ MCP Protocol Deep Understanding**: Documented complete initialization sequence and common pitfalls
+  - **Session lifecycle**: Proper session creation, management, and cleanup
+  - **Transport specifics**: HTTP vs stdio transport differences and requirements
+  - **FastMCP integration**: Framework-specific requirements for content negotiation
+  - **Debugging techniques**: Verbose logging and error interpretation for HTTP transport
+
+### Comprehensive Deployment Guide (Previously Completed)
 - **✅ Unified Deployment Documentation**: Created single comprehensive guide combining all deployment approaches
   - **File**: `DEPLOY.md` (replaces three separate guides: `RUN-REMOTE-MACHINE.md`, `RUN-REMOTE-MACHINE-DOCKER.md`, `REMOTE_DEPLOYMENT_GUIDE.md`)
   - **Progressive complexity structure**: Quick start → basic config → advanced config → production
