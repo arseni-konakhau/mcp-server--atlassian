@@ -113,7 +113,7 @@ mcp-session-id: {{sessionId}}
 
 
 
-### 3. Get Tool Schema - Jira Search
+### 3. Jira Search Issues
 POST {{baseUrl}}/mcp
 Content-Type: application/json
 Accept: application/json, text/event-stream
@@ -124,10 +124,10 @@ mcp-session-id: {{sessionId}}
   "id": 3,
   "method": "tools/call",
   "params": {
-    "name": "jira_search_issues",
+    "name": "jira_search",
     "arguments": {
-      "jql": "project = PROJ ORDER BY created DESC",
-      "max_results": 5
+      "jql": "project = SMP ORDER BY created DESC",
+      "limit": 5
     }
   }
 }
@@ -150,7 +150,7 @@ mcp-session-id: {{sessionId}}
   }
 }
 
-### 5. List Jira Projects
+### 5. Get Jira User Profile
 POST {{baseUrl}}/mcp
 Content-Type: application/json
 Accept: application/json, text/event-stream
@@ -161,12 +161,14 @@ mcp-session-id: {{sessionId}}
   "id": 5,
   "method": "tools/call",
   "params": {
-    "name": "jira_list_projects",
-    "arguments": {}
+    "name": "jira_get_user_profile",
+    "arguments": {
+      "user_identifier": "arseny.konohov2@gmail.com"
+    }
   }
 }
 
-### 6. Search Confluence Content
+### 6. Jira Search with All Fields
 POST {{baseUrl}}/mcp
 Content-Type: application/json
 Accept: application/json, text/event-stream
@@ -177,15 +179,16 @@ mcp-session-id: {{sessionId}}
   "id": 6,
   "method": "tools/call",
   "params": {
-    "name": "confluence_search",
+    "name": "jira_search",
     "arguments": {
-      "query": "documentation",
-      "limit": 10
+      "jql": "assignee = currentUser() ORDER BY updated DESC",
+      "fields": "*all",
+      "limit": 3
     }
   }
 }
 
-### 7. Get Confluence Page
+### 7. Jira Search with Custom Fields
 POST {{baseUrl}}/mcp
 Content-Type: application/json
 Accept: application/json, text/event-stream
@@ -196,14 +199,17 @@ mcp-session-id: {{sessionId}}
   "id": 7,
   "method": "tools/call",
   "params": {
-    "name": "confluence_get_page",
+    "name": "jira_search",
     "arguments": {
-      "page_id": "123456"
+      "jql": "status = 'In Progress' AND project = SMP",
+      "fields": "summary,status,assignee,priority,updated",
+      "limit": 10,
+      "expand": "transitions"
     }
   }
 }
 
-### 8. List Confluence Spaces
+### 8. Get Jira Issue with Expanded Fields
 POST {{baseUrl}}/mcp
 Content-Type: application/json
 Accept: application/json, text/event-stream
@@ -214,9 +220,12 @@ mcp-session-id: {{sessionId}}
   "id": 8,
   "method": "tools/call",
   "params": {
-    "name": "confluence_list_spaces",
+    "name": "jira_get_issue",
     "arguments": {
-      "limit": 20
+      "issue_key": "SMP-1",
+      "fields": "summary,status,assignee,description,comments",
+      "expand": "transitions,changelog",
+      "comment_limit": 5
     }
   }
 }
@@ -240,10 +249,10 @@ X-Atlassian-Cloud-Id: YOUR_CLOUD_ID
   "id": 9,
   "method": "tools/call",
   "params": {
-    "name": "jira_search_issues",
+    "name": "jira_search",
     "arguments": {
       "jql": "assignee = currentUser() ORDER BY updated DESC",
-      "max_results": 10
+      "limit": 10
     }
   }
 }
@@ -260,15 +269,15 @@ Authorization: Token YOUR_PERSONAL_ACCESS_TOKEN
   "id": 10,
   "method": "tools/call",
   "params": {
-    "name": "jira_search_issues",
+    "name": "jira_search",
     "arguments": {
       "jql": "reporter = currentUser() ORDER BY created DESC",
-      "max_results": 5
+      "limit": 5
     }
   }
 }
 
-### 11. Confluence Search with User Token
+### 11. Get User Profile with OAuth Token
 POST {{baseUrl}}/mcp
 Content-Type: application/json
 Accept: application/json, text/event-stream
@@ -281,10 +290,9 @@ X-Atlassian-Cloud-Id: YOUR_CLOUD_ID
   "id": 11,
   "method": "tools/call",
   "params": {
-    "name": "confluence_search",
+    "name": "jira_get_user_profile",
     "arguments": {
-      "query": "space = DEV AND type = page",
-      "limit": 15
+      "user_identifier": "currentUser()"
     }
   }
 }
@@ -308,7 +316,7 @@ Authorization: Bearer YOUR_OAUTH_ACCESS_TOKEN
   "params": {
     "name": "jira_create_issue",
     "arguments": {
-      "project_key": "PROJ",
+      "project_key": "SMP",
       "summary": "Test issue created via HTTP MCP",
       "description": "This issue was created to test the HTTP transport functionality",
       "issue_type": "Task"
@@ -330,9 +338,11 @@ Authorization: Bearer YOUR_OAUTH_ACCESS_TOKEN
   "params": {
     "name": "jira_update_issue",
     "arguments": {
-      "issue_key": "PROJ-123",
-      "summary": "Updated summary via HTTP MCP",
-      "description": "Updated description via HTTP transport"
+      "issue_key": "SMP-1",
+      "fields": {
+        "summary": "Updated summary via HTTP MCP",
+        "description": "Updated description via HTTP transport"
+      }
     }
   }
 }
@@ -351,7 +361,7 @@ Authorization: Bearer YOUR_OAUTH_ACCESS_TOKEN
   "params": {
     "name": "jira_add_comment",
     "arguments": {
-      "issue_key": "PROJ-123",
+      "issue_key": "SMP-1",
       "comment": "This comment was added via HTTP MCP transport for testing purposes."
     }
   }
@@ -371,8 +381,8 @@ Authorization: Bearer YOUR_OAUTH_ACCESS_TOKEN
   "params": {
     "name": "jira_transition_issue",
     "arguments": {
-      "issue_key": "PROJ-123",
-      "transition_name": "In Progress",
+      "issue_key": "SMP-1",
+      "transition_id": "11",
       "comment": "Moving to In Progress via HTTP MCP"
     }
   }
@@ -447,10 +457,10 @@ mcp-session-id: {{sessionId}}
   "id": 19,
   "method": "tools/call",
   "params": {
-    "name": "jira_search_issues",
+    "name": "jira_search",
     "arguments": {
       "jql": "invalid jql syntax here",
-      "max_results": 5
+      "limit": 5
     }
   }
 }
@@ -485,10 +495,10 @@ mcp-session-id: {{sessionId}}
 #     "id": 2,
 #     "method": "tools/call",
 #     "params": {
-#       "name": "jira_search_issues",
+#       "name": "jira_search",
 #       "arguments": {
-#         "jql": "project = PROJ ORDER BY created DESC",
-#         "max_results": 5
+#         "jql": "project = SMP ORDER BY created DESC",
+#         "limit": 5
 #       }
 #     }
 #   }'
@@ -503,10 +513,10 @@ mcp-session-id: {{sessionId}}
 #     "id": 3,
 #     "method": "tools/call",
 #     "params": {
-#       "name": "jira_search_issues",
+#       "name": "jira_search",
 #       "arguments": {
 #         "jql": "assignee = currentUser()",
-#         "max_results": 10
+#         "limit": 10
 #       }
 #     }
 #   }'
