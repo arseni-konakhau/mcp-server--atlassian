@@ -2,6 +2,19 @@
 ### This file provides examples for testing the MCP Atlassian server via HTTP transport
 ### Use with REST clients like VS Code REST Client, Postman, or curl
 
+
+# =============================================
+# =============================================
+# to run in dev mode:
+# uv run mcp-atlassian --transport streamable-http --port 9000 --env-file .env --verbose
+# =============================================
+# =============================================
+
+# =============================================
+# CONFIGURATION
+# =============================================
+@baseUrl = http://localhost:9000
+
 # =============================================
 # SETUP INSTRUCTIONS
 # =============================================
@@ -13,16 +26,18 @@
 #      --transport streamable-http --port 9000
 #
 # 3. Server endpoints will be available at:
-#    - MCP Protocol: http://localhost:9000/mcp
-#    - Health Check: http://localhost:9000/healthz
-#    - SSE Transport: http://localhost:9000/sse (if using --transport sse)
+#    - MCP Protocol: {{baseUrl}}/mcp
+#    - Health Check: {{baseUrl}}/healthz
+#    - SSE Transport: {{baseUrl}}/sse (if using --transport sse)
+#
+# 4. To change the server URL, update the @baseUrl variable above
 
 # =============================================
 # HEALTH CHECK
 # =============================================
 
 ### Health Check - Verify server is running
-GET http://localhost:9000/healthz
+GET {{baseUrl}}/healthz
 Content-Type: application/json
 
 ### Expected Response: {"status": "ok"}
@@ -30,10 +45,15 @@ Content-Type: application/json
 # =============================================
 # MCP PROTOCOL REQUESTS
 # =============================================
+# IMPORTANT: All MCP protocol requests MUST include the Accept header with both
+# "application/json" and "text/event-stream" to avoid 406 Not Acceptable errors.
+# The FastMCP framework requires clients to accept both content types for
+# proper content negotiation between regular JSON and streaming responses.
 
 ### 1. Initialize MCP Session
-POST http://localhost:9000/mcp
+POST {{baseUrl}}/mcp
 Content-Type: application/json
+Accept: application/json, text/event-stream
 
 {
   "jsonrpc": "2.0",
@@ -52,8 +72,9 @@ Content-Type: application/json
 }
 
 ### 2. List Available Tools
-POST http://localhost:9000/mcp
+POST {{baseUrl}}/mcp
 Content-Type: application/json
+Accept: application/json, text/event-stream
 
 {
   "jsonrpc": "2.0",
@@ -63,8 +84,9 @@ Content-Type: application/json
 }
 
 ### 3. Get Tool Schema - Jira Search
-POST http://localhost:9000/mcp
+POST {{baseUrl}}/mcp
 Content-Type: application/json
+Accept: application/json, text/event-stream
 
 {
   "jsonrpc": "2.0",
@@ -80,8 +102,9 @@ Content-Type: application/json
 }
 
 ### 4. Get Jira Issue
-POST http://localhost:9000/mcp
+POST {{baseUrl}}/mcp
 Content-Type: application/json
+Accept: application/json, text/event-stream
 
 {
   "jsonrpc": "2.0",
@@ -96,8 +119,9 @@ Content-Type: application/json
 }
 
 ### 5. List Jira Projects
-POST http://localhost:9000/mcp
+POST {{baseUrl}}/mcp
 Content-Type: application/json
+Accept: application/json, text/event-stream
 
 {
   "jsonrpc": "2.0",
@@ -110,8 +134,9 @@ Content-Type: application/json
 }
 
 ### 6. Search Confluence Content
-POST http://localhost:9000/mcp
+POST {{baseUrl}}/mcp
 Content-Type: application/json
+Accept: application/json, text/event-stream
 
 {
   "jsonrpc": "2.0",
@@ -127,8 +152,9 @@ Content-Type: application/json
 }
 
 ### 7. Get Confluence Page
-POST http://localhost:9000/mcp
+POST {{baseUrl}}/mcp
 Content-Type: application/json
+Accept: application/json, text/event-stream
 
 {
   "jsonrpc": "2.0",
@@ -143,8 +169,9 @@ Content-Type: application/json
 }
 
 ### 8. List Confluence Spaces
-POST http://localhost:9000/mcp
+POST {{baseUrl}}/mcp
 Content-Type: application/json
+Accept: application/json, text/event-stream
 
 {
   "jsonrpc": "2.0",
@@ -165,8 +192,9 @@ Content-Type: application/json
 # instead of the server's global configuration
 
 ### 9. Jira Search with OAuth Token
-POST http://localhost:9000/mcp
+POST {{baseUrl}}/mcp
 Content-Type: application/json
+Accept: application/json, text/event-stream
 Authorization: Bearer YOUR_OAUTH_ACCESS_TOKEN
 X-Atlassian-Cloud-Id: YOUR_CLOUD_ID
 
@@ -184,8 +212,9 @@ X-Atlassian-Cloud-Id: YOUR_CLOUD_ID
 }
 
 ### 10. Jira Search with Personal Access Token (Server/DC)
-POST http://localhost:9000/mcp
+POST {{baseUrl}}/mcp
 Content-Type: application/json
+Accept: application/json, text/event-stream
 Authorization: Token YOUR_PERSONAL_ACCESS_TOKEN
 
 {
@@ -202,8 +231,9 @@ Authorization: Token YOUR_PERSONAL_ACCESS_TOKEN
 }
 
 ### 11. Confluence Search with User Token
-POST http://localhost:9000/mcp
+POST {{baseUrl}}/mcp
 Content-Type: application/json
+Accept: application/json, text/event-stream
 Authorization: Bearer YOUR_OAUTH_ACCESS_TOKEN
 X-Atlassian-Cloud-Id: YOUR_CLOUD_ID
 
@@ -226,8 +256,9 @@ X-Atlassian-Cloud-Id: YOUR_CLOUD_ID
 # These examples require write permissions
 
 ### 12. Create Jira Issue
-POST http://localhost:9000/mcp
+POST {{baseUrl}}/mcp
 Content-Type: application/json
+Accept: application/json, text/event-stream
 Authorization: Bearer YOUR_OAUTH_ACCESS_TOKEN
 
 {
@@ -246,8 +277,9 @@ Authorization: Bearer YOUR_OAUTH_ACCESS_TOKEN
 }
 
 ### 13. Update Jira Issue
-POST http://localhost:9000/mcp
+POST {{baseUrl}}/mcp
 Content-Type: application/json
+Accept: application/json, text/event-stream
 Authorization: Bearer YOUR_OAUTH_ACCESS_TOKEN
 
 {
@@ -265,8 +297,9 @@ Authorization: Bearer YOUR_OAUTH_ACCESS_TOKEN
 }
 
 ### 14. Add Comment to Jira Issue
-POST http://localhost:9000/mcp
+POST {{baseUrl}}/mcp
 Content-Type: application/json
+Accept: application/json, text/event-stream
 Authorization: Bearer YOUR_OAUTH_ACCESS_TOKEN
 
 {
@@ -283,8 +316,9 @@ Authorization: Bearer YOUR_OAUTH_ACCESS_TOKEN
 }
 
 ### 15. Transition Jira Issue
-POST http://localhost:9000/mcp
+POST {{baseUrl}}/mcp
 Content-Type: application/json
+Accept: application/json, text/event-stream
 Authorization: Bearer YOUR_OAUTH_ACCESS_TOKEN
 
 {
@@ -302,8 +336,9 @@ Authorization: Bearer YOUR_OAUTH_ACCESS_TOKEN
 }
 
 ### 16. Create Confluence Page
-POST http://localhost:9000/mcp
+POST {{baseUrl}}/mcp
 Content-Type: application/json
+Accept: application/json, text/event-stream
 Authorization: Bearer YOUR_OAUTH_ACCESS_TOKEN
 
 {
@@ -326,8 +361,9 @@ Authorization: Bearer YOUR_OAUTH_ACCESS_TOKEN
 # =============================================
 
 ### 17. Invalid Tool Name
-POST http://localhost:9000/mcp
+POST {{baseUrl}}/mcp
 Content-Type: application/json
+Accept: application/json, text/event-stream
 
 {
   "jsonrpc": "2.0",
@@ -340,8 +376,9 @@ Content-Type: application/json
 }
 
 ### 18. Missing Required Parameters
-POST http://localhost:9000/mcp
+POST {{baseUrl}}/mcp
 Content-Type: application/json
+Accept: application/json, text/event-stream
 
 {
   "jsonrpc": "2.0",
@@ -354,8 +391,9 @@ Content-Type: application/json
 }
 
 ### 19. Invalid JQL Query
-POST http://localhost:9000/mcp
+POST {{baseUrl}}/mcp
 Content-Type: application/json
+Accept: application/json, text/event-stream
 
 {
   "jsonrpc": "2.0",
@@ -376,11 +414,12 @@ Content-Type: application/json
 # Use these commands in terminal for testing
 
 ### Health Check with curl
-# curl -X GET http://localhost:9000/healthz
+# curl -X GET {{baseUrl}}/healthz
 
 ### List Tools with curl
-# curl -X POST http://localhost:9000/mcp \
+# curl -X POST {{baseUrl}}/mcp \
 #   -H "Content-Type: application/json" \
+#   -H "Accept: application/json, text/event-stream" \
 #   -d '{
 #     "jsonrpc": "2.0",
 #     "id": 1,
@@ -389,8 +428,9 @@ Content-Type: application/json
 #   }'
 
 ### Search Jira Issues with curl and OAuth
-# curl -X POST http://localhost:9000/mcp \
+# curl -X POST {{baseUrl}}/mcp \
 #   -H "Content-Type: application/json" \
+#   -H "Accept: application/json, text/event-stream" \
 #   -H "Authorization: Bearer YOUR_OAUTH_TOKEN" \
 #   -H "X-Atlassian-Cloud-Id: YOUR_CLOUD_ID" \
 #   -d '{
@@ -407,8 +447,9 @@ Content-Type: application/json
 #   }'
 
 ### Search Jira Issues with curl and PAT
-# curl -X POST http://localhost:9000/mcp \
+# curl -X POST {{baseUrl}}/mcp \
 #   -H "Content-Type: application/json" \
+#   -H "Accept: application/json, text/event-stream" \
 #   -H "Authorization: Token YOUR_PERSONAL_ACCESS_TOKEN" \
 #   -d '{
 #     "jsonrpc": "2.0",
