@@ -89,18 +89,6 @@ mcp-session-id: {{sessionId}}
   "params": {}
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
 ### 2. List Available Tools
 POST {{baseUrl}}/mcp
 Content-Type: application/json
@@ -113,6 +101,17 @@ mcp-session-id: {{sessionId}}
   "method": "tools/list",
   "params": {}
 }
+
+
+
+
+
+
+
+
+
+
+
 
 ### 3. Get Tool Schema - Jira Search
 POST {{baseUrl}}/mcp
