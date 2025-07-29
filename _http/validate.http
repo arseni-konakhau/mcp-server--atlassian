@@ -1,0 +1,455 @@
+### MCP Atlassian HTTP Transport Validation Examples
+### This file provides examples for testing the MCP Atlassian server via HTTP transport
+### Use with REST clients like VS Code REST Client, Postman, or curl
+
+# =============================================
+# SETUP INSTRUCTIONS
+# =============================================
+# 1. Start the server in HTTP mode:
+#    uv run mcp-atlassian --transport streamable-http --port 9000 --env-file .env --verbose
+#
+# 2. Or using Docker:
+#    docker run --rm -p 9000:9000 --env-file .env ghcr.io/sooperset/mcp-atlassian:latest \
+#      --transport streamable-http --port 9000
+#
+# 3. Server endpoints will be available at:
+#    - MCP Protocol: http://localhost:9000/mcp
+#    - Health Check: http://localhost:9000/healthz
+#    - SSE Transport: http://localhost:9000/sse (if using --transport sse)
+
+# =============================================
+# HEALTH CHECK
+# =============================================
+
+### Health Check - Verify server is running
+GET http://localhost:9000/healthz
+Content-Type: application/json
+
+### Expected Response: {"status": "ok"}
+
+# =============================================
+# MCP PROTOCOL REQUESTS
+# =============================================
+
+### 1. Initialize MCP Session
+POST http://localhost:9000/mcp
+Content-Type: application/json
+
+{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "method": "initialize",
+  "params": {
+    "protocolVersion": "2024-11-05",
+    "capabilities": {
+      "tools": {}
+    },
+    "clientInfo": {
+      "name": "http-test-client",
+      "version": "1.0.0"
+    }
+  }
+}
+
+### 2. List Available Tools
+POST http://localhost:9000/mcp
+Content-Type: application/json
+
+{
+  "jsonrpc": "2.0",
+  "id": 2,
+  "method": "tools/list",
+  "params": {}
+}
+
+### 3. Get Tool Schema - Jira Search
+POST http://localhost:9000/mcp
+Content-Type: application/json
+
+{
+  "jsonrpc": "2.0",
+  "id": 3,
+  "method": "tools/call",
+  "params": {
+    "name": "jira_search_issues",
+    "arguments": {
+      "jql": "project = PROJ ORDER BY created DESC",
+      "max_results": 5
+    }
+  }
+}
+
+### 4. Get Jira Issue
+POST http://localhost:9000/mcp
+Content-Type: application/json
+
+{
+  "jsonrpc": "2.0",
+  "id": 4,
+  "method": "tools/call",
+  "params": {
+    "name": "jira_get_issue",
+    "arguments": {
+      "issue_key": "PROJ-123"
+    }
+  }
+}
+
+### 5. List Jira Projects
+POST http://localhost:9000/mcp
+Content-Type: application/json
+
+{
+  "jsonrpc": "2.0",
+  "id": 5,
+  "method": "tools/call",
+  "params": {
+    "name": "jira_list_projects",
+    "arguments": {}
+  }
+}
+
+### 6. Search Confluence Content
+POST http://localhost:9000/mcp
+Content-Type: application/json
+
+{
+  "jsonrpc": "2.0",
+  "id": 6,
+  "method": "tools/call",
+  "params": {
+    "name": "confluence_search",
+    "arguments": {
+      "query": "documentation",
+      "limit": 10
+    }
+  }
+}
+
+### 7. Get Confluence Page
+POST http://localhost:9000/mcp
+Content-Type: application/json
+
+{
+  "jsonrpc": "2.0",
+  "id": 7,
+  "method": "tools/call",
+  "params": {
+    "name": "confluence_get_page",
+    "arguments": {
+      "page_id": "123456"
+    }
+  }
+}
+
+### 8. List Confluence Spaces
+POST http://localhost:9000/mcp
+Content-Type: application/json
+
+{
+  "jsonrpc": "2.0",
+  "id": 8,
+  "method": "tools/call",
+  "params": {
+    "name": "confluence_list_spaces",
+    "arguments": {
+      "limit": 20
+    }
+  }
+}
+
+# =============================================
+# MULTI-USER AUTHENTICATION EXAMPLES
+# =============================================
+# These examples show how to use user-specific tokens
+# instead of the server's global configuration
+
+### 9. Jira Search with OAuth Token
+POST http://localhost:9000/mcp
+Content-Type: application/json
+Authorization: Bearer YOUR_OAUTH_ACCESS_TOKEN
+X-Atlassian-Cloud-Id: YOUR_CLOUD_ID
+
+{
+  "jsonrpc": "2.0",
+  "id": 9,
+  "method": "tools/call",
+  "params": {
+    "name": "jira_search_issues",
+    "arguments": {
+      "jql": "assignee = currentUser() ORDER BY updated DESC",
+      "max_results": 10
+    }
+  }
+}
+
+### 10. Jira Search with Personal Access Token (Server/DC)
+POST http://localhost:9000/mcp
+Content-Type: application/json
+Authorization: Token YOUR_PERSONAL_ACCESS_TOKEN
+
+{
+  "jsonrpc": "2.0",
+  "id": 10,
+  "method": "tools/call",
+  "params": {
+    "name": "jira_search_issues",
+    "arguments": {
+      "jql": "reporter = currentUser() ORDER BY created DESC",
+      "max_results": 5
+    }
+  }
+}
+
+### 11. Confluence Search with User Token
+POST http://localhost:9000/mcp
+Content-Type: application/json
+Authorization: Bearer YOUR_OAUTH_ACCESS_TOKEN
+X-Atlassian-Cloud-Id: YOUR_CLOUD_ID
+
+{
+  "jsonrpc": "2.0",
+  "id": 11,
+  "method": "tools/call",
+  "params": {
+    "name": "confluence_search",
+    "arguments": {
+      "query": "space = DEV AND type = page",
+      "limit": 15
+    }
+  }
+}
+
+# =============================================
+# WRITE OPERATIONS (if READ_ONLY_MODE=false)
+# =============================================
+# These examples require write permissions
+
+### 12. Create Jira Issue
+POST http://localhost:9000/mcp
+Content-Type: application/json
+Authorization: Bearer YOUR_OAUTH_ACCESS_TOKEN
+
+{
+  "jsonrpc": "2.0",
+  "id": 12,
+  "method": "tools/call",
+  "params": {
+    "name": "jira_create_issue",
+    "arguments": {
+      "project_key": "PROJ",
+      "summary": "Test issue created via HTTP MCP",
+      "description": "This issue was created to test the HTTP transport functionality",
+      "issue_type": "Task"
+    }
+  }
+}
+
+### 13. Update Jira Issue
+POST http://localhost:9000/mcp
+Content-Type: application/json
+Authorization: Bearer YOUR_OAUTH_ACCESS_TOKEN
+
+{
+  "jsonrpc": "2.0",
+  "id": 13,
+  "method": "tools/call",
+  "params": {
+    "name": "jira_update_issue",
+    "arguments": {
+      "issue_key": "PROJ-123",
+      "summary": "Updated summary via HTTP MCP",
+      "description": "Updated description via HTTP transport"
+    }
+  }
+}
+
+### 14. Add Comment to Jira Issue
+POST http://localhost:9000/mcp
+Content-Type: application/json
+Authorization: Bearer YOUR_OAUTH_ACCESS_TOKEN
+
+{
+  "jsonrpc": "2.0",
+  "id": 14,
+  "method": "tools/call",
+  "params": {
+    "name": "jira_add_comment",
+    "arguments": {
+      "issue_key": "PROJ-123",
+      "comment": "This comment was added via HTTP MCP transport for testing purposes."
+    }
+  }
+}
+
+### 15. Transition Jira Issue
+POST http://localhost:9000/mcp
+Content-Type: application/json
+Authorization: Bearer YOUR_OAUTH_ACCESS_TOKEN
+
+{
+  "jsonrpc": "2.0",
+  "id": 15,
+  "method": "tools/call",
+  "params": {
+    "name": "jira_transition_issue",
+    "arguments": {
+      "issue_key": "PROJ-123",
+      "transition_name": "In Progress",
+      "comment": "Moving to In Progress via HTTP MCP"
+    }
+  }
+}
+
+### 16. Create Confluence Page
+POST http://localhost:9000/mcp
+Content-Type: application/json
+Authorization: Bearer YOUR_OAUTH_ACCESS_TOKEN
+
+{
+  "jsonrpc": "2.0",
+  "id": 16,
+  "method": "tools/call",
+  "params": {
+    "name": "confluence_create_page",
+    "arguments": {
+      "space_key": "DEV",
+      "title": "Test Page via HTTP MCP",
+      "content": "<p>This page was created via HTTP MCP transport for testing.</p><h2>Features Tested</h2><ul><li>HTTP transport</li><li>Authentication</li><li>Page creation</li></ul>",
+      "parent_page_id": "123456"
+    }
+  }
+}
+
+# =============================================
+# ERROR HANDLING EXAMPLES
+# =============================================
+
+### 17. Invalid Tool Name
+POST http://localhost:9000/mcp
+Content-Type: application/json
+
+{
+  "jsonrpc": "2.0",
+  "id": 17,
+  "method": "tools/call",
+  "params": {
+    "name": "invalid_tool_name",
+    "arguments": {}
+  }
+}
+
+### 18. Missing Required Parameters
+POST http://localhost:9000/mcp
+Content-Type: application/json
+
+{
+  "jsonrpc": "2.0",
+  "id": 18,
+  "method": "tools/call",
+  "params": {
+    "name": "jira_get_issue",
+    "arguments": {}
+  }
+}
+
+### 19. Invalid JQL Query
+POST http://localhost:9000/mcp
+Content-Type: application/json
+
+{
+  "jsonrpc": "2.0",
+  "id": 19,
+  "method": "tools/call",
+  "params": {
+    "name": "jira_search_issues",
+    "arguments": {
+      "jql": "invalid jql syntax here",
+      "max_results": 5
+    }
+  }
+}
+
+# =============================================
+# CURL EXAMPLES
+# =============================================
+# Use these commands in terminal for testing
+
+### Health Check with curl
+# curl -X GET http://localhost:9000/healthz
+
+### List Tools with curl
+# curl -X POST http://localhost:9000/mcp \
+#   -H "Content-Type: application/json" \
+#   -d '{
+#     "jsonrpc": "2.0",
+#     "id": 1,
+#     "method": "tools/list",
+#     "params": {}
+#   }'
+
+### Search Jira Issues with curl and OAuth
+# curl -X POST http://localhost:9000/mcp \
+#   -H "Content-Type: application/json" \
+#   -H "Authorization: Bearer YOUR_OAUTH_TOKEN" \
+#   -H "X-Atlassian-Cloud-Id: YOUR_CLOUD_ID" \
+#   -d '{
+#     "jsonrpc": "2.0",
+#     "id": 2,
+#     "method": "tools/call",
+#     "params": {
+#       "name": "jira_search_issues",
+#       "arguments": {
+#         "jql": "project = PROJ ORDER BY created DESC",
+#         "max_results": 5
+#       }
+#     }
+#   }'
+
+### Search Jira Issues with curl and PAT
+# curl -X POST http://localhost:9000/mcp \
+#   -H "Content-Type: application/json" \
+#   -H "Authorization: Token YOUR_PERSONAL_ACCESS_TOKEN" \
+#   -d '{
+#     "jsonrpc": "2.0",
+#     "id": 3,
+#     "method": "tools/call",
+#     "params": {
+#       "name": "jira_search_issues",
+#       "arguments": {
+#         "jql": "assignee = currentUser()",
+#         "max_results": 10
+#       }
+#     }
+#   }'
+
+# =============================================
+# TESTING WORKFLOW
+# =============================================
+# Recommended testing sequence:
+#
+# 1. Start with health check to verify server is running
+# 2. Initialize MCP session
+# 3. List available tools to see what's configured
+# 4. Test read operations first (search, get)
+# 5. Test write operations if needed (create, update)
+# 6. Test error handling with invalid requests
+# 7. Test multi-user authentication if applicable
+#
+# Expected responses:
+# - Health check: {"status": "ok"}
+# - Initialize: Server capabilities and protocol info
+# - Tools list: Array of available tools with schemas
+# - Tool calls: Results from Atlassian APIs formatted as MCP responses
+# - Errors: Proper JSON-RPC error responses with details
+
+# =============================================
+# DEBUGGING TIPS
+# =============================================
+# 1. Enable verbose logging: --verbose flag when starting server
+# 2. Check server logs for authentication and API call details
+# 3. Verify environment variables are loaded correctly
+# 4. Test with simple read operations before write operations
+# 5. Use MCP session IDs for tracking requests in logs
+# 6. Check Atlassian API documentation for valid JQL and parameters
+# 7. Verify OAuth tokens have required scopes for operations
