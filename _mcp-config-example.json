@@ -6,10 +6,10 @@
         "run",
         "mcp-atlassian",
         "--env-file",
-        "/Users/arsenikonakhau/Desktop/_DEVELOPER_/MCP/mcp-server--atlassian/.env",
+        "/path/to/your/working/directory/.env",
         "--verbose"
       ],
-      "cwd": "/Users/arsenikonakhau/Desktop/_DEVELOPER_/MCP/mcp-server--atlassian",
+      "cwd": "/path/to/your/working/directory",
       "autoApprove": [
         "jira_create_issue",
         "jira_get_all_projects",
