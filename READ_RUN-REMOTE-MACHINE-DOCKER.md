@@ -151,27 +151,27 @@ READ_ONLY_MODE=false
 #### Using Streamable-HTTP Transport (Recommended)
 
 ```bash
-# Start server on port 9000 with streamable-HTTP transport
+# Start server on port 3334 with streamable-HTTP transport
 docker run --name mcp-atlassian-server \
   -d \
-  -p 9000:9000 \
+  -p 3334:3334 \
   --env-file ~/mcp-atlassian-config/.env \
   --restart unless-stopped \
   ghcr.io/sooperset/mcp-atlassian:latest \
-  --transport streamable-http --port 9000 -vv
+  --transport streamable-http --port 3334 -vv
 ```
 
 #### Using SSE Transport (Alternative)
 
 ```bash
-# Start server on port 9000 with SSE transport
+# Start server on port 3334 with SSE transport
 docker run --name mcp-atlassian-server \
   -d \
-  -p 9000:9000 \
+  -p 3334:3334 \
   --env-file ~/mcp-atlassian-config/.env \
   --restart unless-stopped \
   ghcr.io/sooperset/mcp-atlassian:latest \
-  --transport sse --port 9000 -vv
+  --transport sse --port 3334 -vv
 ```
 
 ### Multi-User Mode (Per-Request Authentication)
@@ -180,7 +180,7 @@ docker run --name mcp-atlassian-server \
 # Start server with minimal OAuth configuration for multi-user support
 docker run --name mcp-atlassian-server \
   -d \
-  -p 9000:9000 \
+  -p 3334:3334 \
   -e ATLASSIAN_OAUTH_ENABLE=true \
   -e JIRA_URL=https://your-company.atlassian.net \
   -e CONFLUENCE_URL=https://your-company.atlassian.net/wiki \
@@ -188,7 +188,7 @@ docker run --name mcp-atlassian-server \
   -e MCP_LOGGING_STDOUT=true \
   --restart unless-stopped \
   ghcr.io/sooperset/mcp-atlassian:latest \
-  --transport streamable-http --port 9000 -vv
+  --transport streamable-http --port 3334 -vv
 ```
 
 ## Step 5: Network Configuration
@@ -196,12 +196,12 @@ docker run --name mcp-atlassian-server \
 ### Configure Firewall
 
 ```bash
-# Allow traffic on port 9000 (Ubuntu/Debian)
-sudo ufw allow 9000
+# Allow traffic on port 3334 (Ubuntu/Debian)
+sudo ufw allow 3334
 sudo ufw status
 
 # Or for CentOS/RHEL
-sudo firewall-cmd --permanent --add-port=9000/tcp
+sudo firewall-cmd --permanent --add-port=3334/tcp
 sudo firewall-cmd --reload
 sudo firewall-cmd --list-ports
 ```
@@ -213,7 +213,7 @@ sudo firewall-cmd --list-ports
 docker ps | grep mcp-atlassian
 
 # Check server health locally
-curl http://localhost:9000/healthz
+curl http://localhost:3334/healthz
 
 # View server logs
 docker logs mcp-atlassian-server
@@ -228,7 +228,7 @@ docker logs -f mcp-atlassian-server
 
 ```bash
 # Test server health from any machine
-curl http://your-remote-server-ip:9000/healthz
+curl http://your-remote-server-ip:3334/healthz
 
 # Expected response:
 # {"status": "healthy", "timestamp": "2025-01-25T10:27:00Z"}
@@ -240,7 +240,7 @@ curl http://your-remote-server-ip:9000/healthz
 
 ```bash
 # Test tools listing
-curl -X POST http://your-remote-server-ip:9000/mcp \
+curl -X POST http://your-remote-server-ip:3334/mcp \
   -H "Content-Type: application/json" \
   -d '{
     "jsonrpc": "2.0",
@@ -253,7 +253,7 @@ curl -X POST http://your-remote-server-ip:9000/mcp \
 
 ```bash
 # Search Jira issues
-curl -X POST http://your-remote-server-ip:9000/mcp \
+curl -X POST http://your-remote-server-ip:3334/mcp \
   -H "Content-Type: application/json" \
   -d '{
     "jsonrpc": "2.0",
@@ -273,7 +273,7 @@ curl -X POST http://your-remote-server-ip:9000/mcp \
 
 ```bash
 # Search Confluence pages
-curl -X POST http://your-remote-server-ip:9000/mcp \
+curl -X POST http://your-remote-server-ip:3334/mcp \
   -H "Content-Type: application/json" \
   -d '{
     "jsonrpc": "2.0",
@@ -293,7 +293,7 @@ curl -X POST http://your-remote-server-ip:9000/mcp \
 
 ```bash
 # Create a new Jira issue
-curl -X POST http://your-remote-server-ip:9000/mcp \
+curl -X POST http://your-remote-server-ip:3334/mcp \
   -H "Content-Type: application/json" \
   -d '{
     "jsonrpc": "2.0",
@@ -371,11 +371,11 @@ class MCPAtlassianClient:
 
 # Usage examples
 # Single-user mode (server-level auth)
-client = MCPAtlassianClient("http://your-remote-server:9000")
+client = MCPAtlassianClient("http://your-remote-server:3334")
 
 # Multi-user mode (per-request auth)
 # client = MCPAtlassianClient(
-#     "http://your-remote-server:9000",
+#     "http://your-remote-server:3334",
 #     auth_token="user_oauth_token",
 #     cloud_id="user_cloud_id"
 # )
@@ -456,11 +456,11 @@ class MCPAtlassianClient {
 // Usage example
 async function main() {
     // Single-user mode
-    const client = new MCPAtlassianClient('http://your-remote-server:9000');
+    const client = new MCPAtlassianClient('http://your-remote-server:3334');
     
     // Multi-user mode example:
     // const client = new MCPAtlassianClient(
-    //     'http://your-remote-server:9000',
+    //     'http://your-remote-server:3334',
     //     'user_oauth_token',
     //     'user_cloud_id'
     // );
@@ -501,7 +501,7 @@ main();
 {
   "mcpServers": {
     "mcp-atlassian-remote": {
-      "url": "http://your-remote-server:9000/mcp"
+      "url": "http://your-remote-server:3334/mcp"
     }
   }
 }
@@ -513,7 +513,7 @@ main();
 {
   "mcpServers": {
     "mcp-atlassian-remote": {
-      "url": "http://your-remote-server:9000/sse"
+      "url": "http://your-remote-server:3334/sse"
     }
   }
 }
@@ -525,7 +525,7 @@ main();
 {
   "mcpServers": {
     "mcp-atlassian-remote": {
-      "url": "http://your-remote-server:9000/mcp",
+      "url": "http://your-remote-server:3334/mcp",
       "headers": {
         "Authorization": "Bearer your_oauth_token",
         "X-Atlassian-Cloud-Id": "your_cloud_id"
@@ -550,7 +550,7 @@ server {
     ssl_certificate_key /path/to/key.pem;
     
     location / {
-        proxy_pass http://localhost:9000;
+        proxy_pass http://localhost:3334;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
@@ -568,12 +568,12 @@ server {
 
 ```bash
 # Using UFW (Ubuntu/Debian)
-sudo ufw allow from 192.168.1.0/24 to any port 9000
-sudo ufw deny 9000
+sudo ufw allow from 192.168.1.0/24 to any port 3334
+sudo ufw deny 3334
 
 # Using iptables
-sudo iptables -A INPUT -p tcp --dport 9000 -s 192.168.1.0/24 -j ACCEPT
-sudo iptables -A INPUT -p tcp --dport 9000 -j DROP
+sudo iptables -A INPUT -p tcp --dport 3334 -s 192.168.1.0/24 -j ACCEPT
+sudo iptables -A INPUT -p tcp --dport 3334 -j DROP
 ```
 
 #### Environment Security
@@ -597,7 +597,7 @@ echo "your_confluence_token" | docker secret create confluence_token -
 # Create health check script
 cat > ~/check_mcp_health.sh << 'EOF'
 #!/bin/bash
-HEALTH_URL="http://localhost:9000/healthz"
+HEALTH_URL="http://localhost:3334/healthz"
 RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" $HEALTH_URL)
 
 if [ $RESPONSE -eq 200 ]; then
@@ -627,11 +627,11 @@ docker logs -f --timestamps mcp-atlassian-server
 # Rotate logs to prevent disk space issues
 docker run --log-driver json-file --log-opt max-size=10m --log-opt max-file=3 \
   --name mcp-atlassian-server \
-  -d -p 9000:9000 \
+  -d -p 3334:3334 \
   --env-file ~/mcp-atlassian-config/.env \
   --restart unless-stopped \
   ghcr.io/sooperset/mcp-atlassian:latest \
-  --transport streamable-http --port 9000 -vv
+  --transport streamable-http --port 3334 -vv
 ```
 
 ### Updates
@@ -644,11 +644,11 @@ docker rm mcp-atlassian-server
 
 # Restart with new image (use your original run command)
 docker run --name mcp-atlassian-server \
-  -d -p 9000:9000 \
+  -d -p 3334:3334 \
   --env-file ~/mcp-atlassian-config/.env \
   --restart unless-stopped \
   ghcr.io/sooperset/mcp-atlassian:latest \
-  --transport streamable-http --port 9000 -vv
+  --transport streamable-http --port 3334 -vv
 ```
 
 ## Troubleshooting
@@ -665,8 +665,8 @@ docker ps | grep mcp-atlassian
 docker logs mcp-atlassian-server
 
 # Verify port is open
-netstat -tlnp | grep 9000
-ss -tlnp | grep 9000
+netstat -tlnp | grep 3334
+ss -tlnp | grep 3334
 ```
 
 #### Authentication Errors
@@ -690,10 +690,10 @@ sudo ufw status
 sudo firewall-cmd --list-ports
 
 # Test local connectivity
-curl http://localhost:9000/healthz
+curl http://localhost:3334/healthz
 
 # Test external connectivity from another machine
-curl http://your-remote-server:9000/healthz
+curl http://your-remote-server:3334/healthz
 ```
 
 #### Performance Issues
@@ -719,12 +719,12 @@ docker stop mcp-atlassian-server
 docker rm mcp-atlassian-server
 
 docker run --name mcp-atlassian-debug \
-  -p 9000:9000 \
+  -p 3334:3334 \
   --env-file ~/mcp-atlassian-config/.env \
   -e MCP_VERY_VERBOSE=true \
   -e MCP_LOGGING_STDOUT=true \
   ghcr.io/sooperset/mcp-atlassian:latest \
-  --transport streamable-http --port 9000 -vv
+  --transport streamable-http --port 3334 -vv
 
 # Monitor logs in real-time
 docker logs -f mcp-atlassian-debug
@@ -742,9 +742,9 @@ You now have a fully functional remote MCP Atlassian server accessible via HTTP 
 
 ### Key Endpoints
 
-- **Health check**: `GET http://your-server:9000/healthz`
-- **MCP protocol**: `POST http://your-server:9000/mcp`
-- **SSE transport**: `GET http://your-server:9000/sse` (if using SSE)
+- **Health check**: `GET http://your-server:3334/healthz`
+- **MCP protocol**: `POST http://your-server:3334/mcp`
+- **SSE transport**: `GET http://your-server:3334/sse` (if using SSE)
 
 ### Next Steps
 

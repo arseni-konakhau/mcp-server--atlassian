@@ -172,8 +172,8 @@ uv run python3 manual_test_debug.py --mode api-only
 This is the simplest way - just run the server directly:
 
 ```bash
-# Run MCP server (accessible at http://your-server-ip:9000)
-uv run mcp-atlassian --transport streamable-http --port 9000 --verbose
+# Run MCP server (accessible at http://your-server-ip:3334)
+uv run mcp-atlassian --transport streamable-http --port 3334 --verbose
 
 # That's it! Server is running and accessible
 # Press Ctrl+C to stop
@@ -190,7 +190,7 @@ Run the server in the background using `nohup`:
 
 ```bash
 # Run in background (survives SSH disconnection)
-nohup uv run mcp-atlassian --transport streamable-http --port 9000 --verbose > mcp.log 2>&1 &
+nohup uv run mcp-atlassian --transport streamable-http --port 3334 --verbose > mcp.log 2>&1 &
 
 # Check if running
 ps aux | grep mcp-atlassian
@@ -244,7 +244,7 @@ User=mcp-user
 Group=mcp-user
 WorkingDirectory=/opt/mcp-atlassian
 Environment=PATH=/opt/mcp-atlassian/.venv/bin
-ExecStart=/opt/mcp-atlassian/.venv/bin/uv run mcp-atlassian --transport streamable-http --port 9000 --verbose
+ExecStart=/opt/mcp-atlassian/.venv/bin/uv run mcp-atlassian --transport streamable-http --port 3334 --verbose
 EnvironmentFile=/opt/mcp-atlassian/.env
 Restart=always
 RestartSec=10
@@ -327,7 +327,7 @@ brew install screen  # if needed
 screen -S mcp-atlassian
 
 # Run server inside screen
-uv run mcp-atlassian --transport streamable-http --port 9000 --verbose
+uv run mcp-atlassian --transport streamable-http --port 3334 --verbose
 
 # Detach from screen (keeps running): Ctrl+A, then D
 # Reattach to session: screen -r mcp-atlassian
@@ -349,7 +349,7 @@ module.exports = {
   apps: [{
     name: 'mcp-atlassian',
     script: 'uv',
-    args: 'run mcp-atlassian --transport streamable-http --port 9000 --verbose',
+    args: 'run mcp-atlassian --transport streamable-http --port 3334 --verbose',
     cwd: '/path/to/mcp-atlassian',
     env_file: '.env',
     instances: 1,
@@ -429,7 +429,7 @@ class MCPAtlassianClient:
 # Usage example
 async def main():
     client = MCPAtlassianClient(
-        base_url="http://your-server:9000",
+        base_url="http://your-server:3334",
         auth_token="your-oauth-token",  # For multi-user mode
         cloud_id="your-cloud-id"       # For multi-user mode
     )
@@ -511,7 +511,7 @@ class MCPAtlassianClient {
 // Usage example
 async function main() {
     const client = new MCPAtlassianClient(
-        'http://your-server:9000',
+        'http://your-server:3334',
         'your-oauth-token',  // For multi-user mode
         'your-cloud-id'     // For multi-user mode
     );
@@ -541,7 +541,7 @@ main();
 {
   "mcpServers": {
     "mcp-atlassian-remote": {
-      "url": "http://your-server:9000/mcp"
+      "url": "http://your-server:3334/mcp"
     }
   }
 }
@@ -552,7 +552,7 @@ main();
 {
   "mcpServers": {
     "mcp-atlassian-remote": {
-      "url": "http://your-server:9000/mcp",
+      "url": "http://your-server:3334/mcp",
       "headers": {
         "Authorization": "Bearer YOUR_OAUTH_TOKEN",
         "X-Atlassian-Cloud-Id": "YOUR_CLOUD_ID"
@@ -566,15 +566,15 @@ main();
 
 ```bash
 # Health check
-curl -X GET http://your-server:9000/healthz
+curl -X GET http://your-server:3334/healthz
 
 # List tools
-curl -X POST http://your-server:9000/mcp \
+curl -X POST http://your-server:3334/mcp \
   -H "Content-Type: application/json" \
   -d '{"method": "tools/list", "params": {}}'
 
 # Call tool (single-user mode)
-curl -X POST http://your-server:9000/mcp \
+curl -X POST http://your-server:3334/mcp \
   -H "Content-Type: application/json" \
   -d '{
     "method": "tools/call",
@@ -588,7 +588,7 @@ curl -X POST http://your-server:9000/mcp \
   }'
 
 # Call tool (multi-user mode)
-curl -X POST http://your-server:9000/mcp \
+curl -X POST http://your-server:3334/mcp \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer YOUR_OAUTH_TOKEN" \
   -H "X-Atlassian-Cloud-Id: YOUR_CLOUD_ID" \
@@ -651,7 +651,7 @@ server {
 
     # Proxy configuration
     location / {
-        proxy_pass http://127.0.0.1:9000;
+        proxy_pass http://127.0.0.1:3334;
         proxy_http_version 1.1;
         proxy_set_header Upgrade $http_upgrade;
         proxy_set_header Connection 'upgrade';
@@ -666,7 +666,7 @@ server {
 
     # Health check endpoint
     location /healthz {
-        proxy_pass http://127.0.0.1:9000/healthz;
+        proxy_pass http://127.0.0.1:3334/healthz;
         access_log off;
     }
 }
@@ -687,7 +687,7 @@ sudo systemctl reload nginx
 sudo ufw allow ssh
 sudo ufw allow 80/tcp
 sudo ufw allow 443/tcp
-sudo ufw deny 9000/tcp  # Block direct access to MCP server
+sudo ufw deny 3334/tcp  # Block direct access to MCP server
 sudo ufw enable
 
 # iptables (CentOS/RHEL)
@@ -705,7 +705,7 @@ location / {
     allow 10.0.0.0/8;
     deny all;
     
-    proxy_pass http://127.0.0.1:9000;
+    proxy_pass http://127.0.0.1:3334;
     # ... other proxy settings
 }
 ```
@@ -731,7 +731,7 @@ chmod 755 /opt/mcp-atlassian/logs
 #!/bin/bash
 # /opt/mcp-atlassian/scripts/health-check.sh
 
-HEALTH_URL="http://localhost:9000/healthz"
+HEALTH_URL="http://localhost:3334/healthz"
 LOG_FILE="/var/log/mcp-atlassian-health.log"
 
 response=$(curl -s -o /dev/null -w "%{http_code}" "$HEALTH_URL" --max-time 10)
@@ -787,14 +787,14 @@ ps aux | grep mcp-atlassian
 top -p $(pgrep -f mcp-atlassian)
 
 # Monitor network connections
-netstat -tulpn | grep :9000
-ss -tulpn | grep :9000
+netstat -tulpn | grep :3334
+ss -tulpn | grep :3334
 ```
 
 #### Application Metrics
 ```bash
 # Check response times
-curl -w "@curl-format.txt" -o /dev/null -s http://localhost:9000/healthz
+curl -w "@curl-format.txt" -o /dev/null -s http://localhost:3334/healthz
 
 # curl-format.txt content:
 #     time_namelookup:  %{time_namelookup}\n
@@ -839,7 +839,7 @@ sudo systemctl start mcp-atlassian
 
 # Verify health
 sleep 10
-curl -f http://localhost:9000/healthz || {
+curl -f http://localhost:3334/healthz || {
     echo "Health check failed, rolling back..."
     sudo systemctl stop mcp-atlassian
     sudo rm -rf /opt/mcp-atlassian
@@ -933,7 +933,7 @@ ping your-domain.atlassian.net
 traceroute your-domain.atlassian.net
 
 # Monitor application performance
-curl -w "@curl-format.txt" -o /dev/null -s http://localhost:9000/healthz
+curl -w "@curl-format.txt" -o /dev/null -s http://localhost:3334/healthz
 ```
 
 ### Debug Mode
@@ -941,7 +941,7 @@ curl -w "@curl-format.txt" -o /dev/null -s http://localhost:9000/healthz
 #### Enable Verbose Logging
 ```bash
 # Temporary debug mode
-uv run mcp-atlassian --transport streamable-http --port 9000 --very-verbose
+uv run mcp-atlassian --transport streamable-http --port 3334 --very-verbose
 
 # Or set in .env
 MCP_VERY_VERBOSE=true

@@ -291,7 +291,7 @@ class TestInteractiveSetup(BaseAuthTest):
                 [
                     "user-client-id",
                     "user-secret",
-                    "http://localhost:9000/callback",
+                    "http://localhost:3334/callback",
                     "read:jira-work",
                 ],
                 0,

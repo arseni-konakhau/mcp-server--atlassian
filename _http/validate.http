@@ -5,14 +5,14 @@
 # =============================================
 # =============================================
 # to run in dev mode:
-# uv run mcp-atlassian --transport streamable-http --port 9000 --env-file .env --verbose
+# uv run mcp-atlassian --transport streamable-http --port 3334 --env-file .env --verbose
 # =============================================
 # =============================================
 
 # =============================================
 # CONFIGURATION
 # =============================================
-@baseUrl = http://localhost:9000
+@baseUrl = http://localhost:3334
 
 
 
@@ -26,11 +26,11 @@
 # SETUP INSTRUCTIONS
 # =============================================
 # 1. Start the server in HTTP mode:
-#    uv run mcp-atlassian --transport streamable-http --port 9000 --env-file .env --verbose
+#    uv run mcp-atlassian --transport streamable-http --port 3334 --env-file .env --verbose
 #
 # 2. Or using Docker:
-#    docker run --rm -p 9000:9000 --env-file .env ghcr.io/sooperset/mcp-atlassian:latest \
-#      --transport streamable-http --port 9000
+#    docker run --rm -p 3334:3334 --env-file .env ghcr.io/sooperset/mcp-atlassian:latest \
+#      --transport streamable-http --port 3334
 #
 # 3. Server endpoints will be available at:
 #    - MCP Protocol: {{baseUrl}}/mcp

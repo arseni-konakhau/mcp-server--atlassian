@@ -30,7 +30,7 @@ This deployment enables you to:
 - **Memory**: Minimum 512MB RAM, recommended 1GB+
 - **Storage**: 2GB free space for dependencies and logs
 - **Network**: Outbound HTTPS access to Atlassian APIs
-- **Ports**: One available port for HTTP access (default: 9000)
+- **Ports**: One available port for HTTP access (default: 3334)
 
 ### Required Access
 - **Remote server access** via SSH
@@ -100,21 +100,21 @@ MCP_VERBOSE=true
 ### 4. Start Server (Simplest)
 ```bash
 # Docker approach
-docker run -d -p 9000:9000 --env-file .env --name mcp-atlassian \
+docker run -d -p 3334:3334 --env-file .env --name mcp-atlassian \
   ghcr.io/sooperset/mcp-atlassian:latest \
-  --transport streamable-http --port 9000 --verbose
+  --transport streamable-http --port 3334 --verbose
 
 # Direct installation approach
-uv run mcp-atlassian --transport streamable-http --port 9000 --verbose
+uv run mcp-atlassian --transport streamable-http --port 3334 --verbose
 ```
 
 ### 5. Test Access
 ```bash
 # Health check
-curl http://your-server-ip:9000/healthz
+curl http://your-server-ip:3334/healthz
 
 # List tools
-curl -X POST http://your-server-ip:9000/mcp \
+curl -X POST http://your-server-ip:3334/mcp \
   -H "Content-Type: application/json" \
   -d '{"jsonrpc": "2.0", "id": 1, "method": "tools/list"}'
 ```
@@ -265,11 +265,11 @@ REQUIRE_HTTPS_UPSTREAM=true
 # Basic single-user setup
 docker run -d \
   --name mcp-atlassian \
-  -p 9000:9000 \
+  -p 3334:3334 \
   --env-file .env \
   --restart unless-stopped \
   ghcr.io/sooperset/mcp-atlassian:latest \
-  --transport streamable-http --port 9000 --verbose
+  --transport streamable-http --port 3334 --verbose
 ```
 
 #### Docker Compose (Recommended)
@@ -282,13 +282,13 @@ services:
     image: ghcr.io/sooperset/mcp-atlassian:latest
     container_name: mcp-atlassian
     ports:
-      - "9000:9000"
+      - "3334:3334"
     env_file:
       - .env
-    command: ["--transport", "streamable-http", "--port", "9000", "--verbose"]
+    command: ["--transport", "streamable-http", "--port", "3334", "--verbose"]
     restart: unless-stopped
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:9000/healthz"]
+      test: ["CMD", "curl", "-f", "http://localhost:3334/healthz"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -318,14 +318,14 @@ mkdir -p ~/mcp-atlassian/{config,logs,data}
 # Run with volume mounts
 docker run -d \
   --name mcp-atlassian \
-  -p 9000:9000 \
+  -p 3334:3334 \
   -v ~/mcp-atlassian/config:/app/config \
   -v ~/mcp-atlassian/logs:/app/logs \
   -v ~/mcp-atlassian/data:/app/data \
   --env-file ~/mcp-atlassian/config/.env \
   --restart unless-stopped \
   ghcr.io/sooperset/mcp-atlassian:latest \
-  --transport streamable-http --port 9000 --verbose
+  --transport streamable-http --port 3334 --verbose
 ```
 
 ### Method 2: Direct Installation Deployment
@@ -338,13 +338,13 @@ cd mcp-atlassian
 uv sync --frozen --all-extras --dev
 
 # Run directly (foreground)
-uv run mcp-atlassian --transport streamable-http --port 9000 --verbose
+uv run mcp-atlassian --transport streamable-http --port 3334 --verbose
 ```
 
 #### Background Process (Simple Production)
 ```bash
 # Run in background with nohup
-nohup uv run mcp-atlassian --transport streamable-http --port 9000 --verbose > mcp.log 2>&1 &
+nohup uv run mcp-atlassian --transport streamable-http --port 3334 --verbose > mcp.log 2>&1 &
 
 # Check if running
 ps aux | grep mcp-atlassian
@@ -382,7 +382,7 @@ User=mcp-user
 Group=mcp-user
 WorkingDirectory=/opt/mcp-atlassian
 Environment=PATH=/opt/mcp-atlassian/.venv/bin
-ExecStart=/opt/mcp-atlassian/.venv/bin/uv run mcp-atlassian --transport streamable-http --port 9000 --verbose
+ExecStart=/opt/mcp-atlassian/.venv/bin/uv run mcp-atlassian --transport streamable-http --port 3334 --verbose
 EnvironmentFile=/opt/mcp-atlassian/.env
 Restart=always
 RestartSec=10
@@ -423,7 +423,7 @@ sudo apt install screen  # Ubuntu/Debian
 screen -S mcp-atlassian
 
 # Run server inside screen
-uv run mcp-atlassian --transport streamable-http --port 9000 --verbose
+uv run mcp-atlassian --transport streamable-http --port 3334 --verbose
 
 # Detach: Ctrl+A, then D
 # Reattach: screen -r mcp-atlassian
@@ -441,7 +441,7 @@ module.exports = {
   apps: [{
     name: 'mcp-atlassian',
     script: 'uv',
-    args: 'run mcp-atlassian --transport streamable-http --port 9000 --verbose',
+    args: 'run mcp-atlassian --transport streamable-http --port 3334 --verbose',
     cwd: '/path/to/mcp-atlassian',
     env_file: '.env',
     instances: 1,
@@ -469,7 +469,7 @@ pm2 startup  # Follow instructions
 #### Basic Health Check
 ```bash
 # Test server health
-curl http://your-server:9000/healthz
+curl http://your-server:3334/healthz
 
 # Expected response:
 # {"status": "healthy", "timestamp": "2025-01-25T10:27:00Z"}
@@ -477,7 +477,7 @@ curl http://your-server:9000/healthz
 
 #### List Available Tools
 ```bash
-curl -X POST http://your-server:9000/mcp \
+curl -X POST http://your-server:3334/mcp \
   -H "Content-Type: application/json" \
   -d '{
     "jsonrpc": "2.0",
@@ -489,7 +489,7 @@ curl -X POST http://your-server:9000/mcp \
 #### Execute Tools
 ```bash
 # Search Jira issues
-curl -X POST http://your-server:9000/mcp \
+curl -X POST http://your-server:3334/mcp \
   -H "Content-Type: application/json" \
   -d '{
     "jsonrpc": "2.0",
@@ -505,7 +505,7 @@ curl -X POST http://your-server:9000/mcp \
   }'
 
 # Create Jira issue
-curl -X POST http://your-server:9000/mcp \
+curl -X POST http://your-server:3334/mcp \
   -H "Content-Type: application/json" \
   -d '{
     "jsonrpc": "2.0",
@@ -523,7 +523,7 @@ curl -X POST http://your-server:9000/mcp \
   }'
 
 # Search Confluence pages
-curl -X POST http://your-server:9000/mcp \
+curl -X POST http://your-server:3334/mcp \
   -H "Content-Type: application/json" \
   -d '{
     "jsonrpc": "2.0",
@@ -542,7 +542,7 @@ curl -X POST http://your-server:9000/mcp \
 #### Multi-User Authentication
 ```bash
 # Call with user-specific OAuth token
-curl -X POST http://your-server:9000/mcp \
+curl -X POST http://your-server:3334/mcp \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer user_oauth_token" \
   -H "X-Atlassian-Cloud-Id: user_cloud_id" \
@@ -629,11 +629,11 @@ class MCPAtlassianClient:
 # Usage examples
 async def main():
     # Single-user mode (server-level auth)
-    client = MCPAtlassianClient("http://your-server:9000")
+    client = MCPAtlassianClient("http://your-server:3334")
     
     # Multi-user mode (per-request auth)
     # client = MCPAtlassianClient(
-    #     "http://your-server:9000",
+    #     "http://your-server:3334",
     #     auth_token="user_oauth_token",
     #     cloud_id="user_cloud_id"
     # )
@@ -736,11 +736,11 @@ class MCPAtlassianClient {
 // Usage example
 async function main() {
     // Single-user mode
-    const client = new MCPAtlassianClient('http://your-server:9000');
+    const client = new MCPAtlassianClient('http://your-server:3334');
     
     // Multi-user mode example:
     // const client = new MCPAtlassianClient(
-    //     'http://your-server:9000',
+    //     'http://your-server:3334',
     //     'user_oauth_token',
     //     'user_cloud_id'
     // );
@@ -784,7 +784,7 @@ main();
 {
   "mcpServers": {
     "mcp-atlassian-remote": {
-      "url": "http://your-server:9000/mcp"
+      "url": "http://your-server:3334/mcp"
     }
   }
 }
@@ -795,7 +795,7 @@ main();
 {
   "mcpServers": {
     "mcp-atlassian-remote": {
-      "url": "http://your-server:9000/mcp",
+      "url": "http://your-server:3334/mcp",
       "headers": {
         "Authorization": "Bearer YOUR_OAUTH_TOKEN",
         "X-Atlassian-Cloud-Id": "YOUR_CLOUD_ID"
@@ -810,7 +810,7 @@ main();
 {
   "mcpServers": {
     "mcp-atlassian-remote": {
-      "url": "http://your-server:9000/sse"
+      "url": "http://your-server:3334/sse"
     }
   }
 }
@@ -866,7 +866,7 @@ server {
 
     # Proxy configuration
     location / {
-        proxy_pass http://127.0.0.1:9000;
+        proxy_pass http://127.0.0.1:3334;
         proxy_http_version 1.1;
         proxy_set_header Upgrade $http_upgrade;
         proxy_set_header Connection 'upgrade';
@@ -881,7 +881,7 @@ server {
 
     # Health check endpoint (no rate limiting)
     location /healthz {
-        proxy_pass http://127.0.0.1:9000/healthz;
+        proxy_pass http://127.0.0.1:3334/healthz;
         access_log off;
     }
 
@@ -890,7 +890,7 @@ server {
     #     allow 192.168.1.0/24;
     #     allow 10.0.0.0/8;
     #     deny all;
-    #     proxy_pass http://127.0.0.1:9000;
+    #     proxy_pass http://127.0.0.1:3334;
     # }
 }
 ```
@@ -918,7 +918,7 @@ sudo ufw allow 80/tcp
 sudo ufw allow 443/tcp
 
 # Block direct access to MCP port
-sudo ufw deny 9000/tcp
+sudo ufw deny 3334/tcp
 
 # Enable firewall
 sudo ufw enable
@@ -933,7 +933,7 @@ sudo firewall-cmd --permanent --add-service=http
 sudo firewall-cmd --permanent --add-service=https
 
 # Block MCP port from external access
-sudo firewall-cmd --permanent --add-rich-rule='rule family="ipv4" port protocol="tcp" port="9000" reject'
+sudo firewall-cmd --permanent --add-rich-rule='rule family="ipv4" port protocol="tcp" port="3334" reject'
 
 # Reload firewall
 sudo firewall-cmd --reload
@@ -959,7 +959,7 @@ chown mcp-user:mcp-user logs  # If using systemd
 # Run container with security options
 docker run -d \
   --name mcp-atlassian \
-  -p 127.0.0.1:9000:9000 \  # Bind to localhost only
+  -p 127.0.0.1:3334:3334 \  # Bind to localhost only
   --env-file .env \
   --user 1000:1000 \  # Run as non-root user
   --read-only \  # Read-only filesystem
@@ -967,7 +967,7 @@ docker run -d \
   --no-new-privileges \  # Prevent privilege escalation
   --restart unless-stopped \
   ghcr.io/sooperset/mcp-atlassian:latest \
-  --transport streamable-http --port 9000 --verbose
+  --transport streamable-http --port 3334 --verbose
 ```
 
 ## Monitoring & Maintenance
@@ -979,7 +979,7 @@ docker run -d \
 #!/bin/bash
 # /opt/scripts/mcp-health-check.sh
 
-HEALTH_URL="http://localhost:9000/healthz"
+HEALTH_URL="http://localhost:3334/healthz"
 LOG_FILE="/var/log/mcp-atlassian-health.log"
 
 response=$(curl -s -o /dev/null -w "%{http_code}" "$HEALTH_URL" --max-time 10)
@@ -1052,14 +1052,14 @@ sudo nano /etc/logrotate.d/mcp-atlassian
 # Configure Docker logging
 docker run -d \
   --name mcp-atlassian \
-  -p 9000:9000 \
+  -p 3334:3334 \
   --env-file .env \
   --log-driver json-file \
   --log-opt max-size=10m \
   --log-opt max-file=3 \
   --restart unless-stopped \
   ghcr.io/sooperset/mcp-atlassian:latest \
-  --transport streamable-http --port 9000 --verbose
+  --transport streamable-http --port 3334 --verbose
 
 # View logs with timestamps
 docker logs -f --timestamps mcp-atlassian
@@ -1077,8 +1077,8 @@ ps aux | grep mcp-atlassian
 top -p $(pgrep -f mcp-atlassian)
 
 # Monitor network connections
-netstat -tulpn | grep :9000
-ss -tulpn | grep :9000
+netstat -tulpn | grep :3334
+ss -tulpn | grep :3334
 
 # Monitor disk usage
 df -h
@@ -1088,7 +1088,7 @@ du -sh /opt/mcp-atlassian/logs/
 #### Application Metrics
 ```bash
 # Response time testing
-curl -w "@curl-format.txt" -o /dev/null -s http://localhost:9000/healthz
+curl -w "@curl-format.txt" -o /dev/null -s http://localhost:3334/healthz
 
 # Create curl-format.txt:
 cat > curl-format.txt << 'EOF'
@@ -1124,15 +1124,15 @@ docker rm mcp-atlassian
 # Start new container
 docker run -d \
   --name mcp-atlassian \
-  -p 9000:9000 \
+  -p 3334:3334 \
   --env-file .env \
   --restart unless-stopped \
   ghcr.io/sooperset/mcp-atlassian:latest \
-  --transport streamable-http --port 9000 --verbose
+  --transport streamable-http --port 3334 --verbose
 
 # Wait and verify health
 sleep 10
-curl -f http://localhost:9000/healthz || {
+curl -f http://localhost:3334/healthz || {
     echo "Health check failed after update"
     exit 1
 }
@@ -1170,7 +1170,7 @@ sudo systemctl start mcp-atlassian
 
 # Verify health
 sleep 10
-curl -f http://localhost:9000/healthz || {
+curl -f http://localhost:3334/healthz || {
     echo "Health check failed, rolling back..."
     sudo systemctl stop mcp-atlassian
     sudo rm -rf /opt/mcp-atlassian
@@ -1273,7 +1273,7 @@ ping your-domain.atlassian.net
 traceroute your-domain.atlassian.net
 
 # Monitor application performance
-curl -w "@curl-format.txt" -o /dev/null -s http://localhost:9000/healthz
+curl -w "@curl-format.txt" -o /dev/null -s http://localhost:3334/healthz
 
 # Check for memory leaks
 docker stats mcp-atlassian
@@ -1299,15 +1299,15 @@ curl -vI https://your-domain.atlassian.net
 # Docker debug mode
 docker run -d \
   --name mcp-atlassian-debug \
-  -p 9000:9000 \
+  -p 3334:3334 \
   --env-file .env \
   -e MCP_VERY_VERBOSE=true \
   -e MCP_LOGGING_STDOUT=true \
   ghcr.io/sooperset/mcp-atlassian:latest \
-  --transport streamable-http --port 9000 --very-verbose
+  --transport streamable-http --port 3334 --very-verbose
 
 # Direct installation debug mode
-MCP_VERY_VERBOSE=true uv run mcp-atlassian --transport streamable-http --port 9000 --very-verbose
+MCP_VERY_VERBOSE=true uv run mcp-atlassian --transport streamable-http --port 3334 --very-verbose
 ```
 
 #### Component Testing
@@ -1318,7 +1318,7 @@ uv run python3 manual_test_debug.py --mode mcp-only
 uv run python3 manual_test_debug.py --mode http-server
 
 # Test specific tools
-curl -X POST http://localhost:9000/mcp \
+curl -X POST http://localhost:3334/mcp \
   -H "Content-Type: application/json" \
   -d '{
     "jsonrpc": "2.0",
@@ -1366,13 +1366,13 @@ RATE_LIMIT_REQUESTS_PER_MINUTE=120
 # Docker resource limits
 docker run -d \
   --name mcp-atlassian \
-  -p 9000:9000 \
+  -p 3334:3334 \
   --env-file .env \
   --memory=1g \
   --cpus=2 \
   --restart unless-stopped \
   ghcr.io/sooperset/mcp-atlassian:latest \
-  --transport streamable-http --port 9000 --verbose
+  --transport streamable-http --port 3334 --verbose
 ```
 
 ## Summary
@@ -1392,9 +1392,9 @@ This comprehensive deployment guide provides everything needed to deploy MCP Atl
 3. **Advanced Options** - Screen, PM2, and other specialized approaches
 
 ### **Key Endpoints**
-- **Health check**: `GET http://your-server:9000/healthz`
-- **MCP protocol**: `POST http://your-server:9000/mcp`
-- **SSE transport**: `GET http://your-server:9000/sse` (if using SSE)
+- **Health check**: `GET http://your-server:3334/healthz`
+- **MCP protocol**: `POST http://your-server:3334/mcp`
+- **SSE transport**: `GET http://your-server:3334/sse` (if using SSE)
 
 ### **Next Steps**
 1. **Choose deployment method** based on your needs (Docker vs. direct)

@@ -24,7 +24,7 @@ async def test_run_server_sse():
     """Test that main_mcp.run_async is called with sse transport and correct port."""
     with patch.object(main_mcp, "run_async") as mock_run_async:
         mock_run_async.return_value = None
-        test_port = 9000
+        test_port = 3334
         await main_mcp.run_async(transport="sse", port=test_port)
         mock_run_async.assert_called_once_with(transport="sse", port=test_port)
 

@@ -1653,7 +1653,7 @@ class TestJiraWorklog:
             "updated": "2023-05-01T10:30:00.000+0000",
             "started": "2023-05-01T09:00:00.000+0000",
             "timeSpent": "2h 30m",
-            "timeSpentSeconds": 9000,
+            "timeSpentSeconds": 3334,
         }
         worklog = JiraWorklog.from_api_response(worklog_data)
         assert worklog.id == "100023"
@@ -1664,7 +1664,7 @@ class TestJiraWorklog:
         assert worklog.updated == "2023-05-01T10:30:00.000+0000"
         assert worklog.started == "2023-05-01T09:00:00.000+0000"
         assert worklog.time_spent == "2h 30m"
-        assert worklog.time_spent_seconds == 9000
+        assert worklog.time_spent_seconds == 3334
 
     def test_from_api_response_with_empty_data(self):
         """Test creating a JiraWorklog from empty data."""
@@ -1692,12 +1692,12 @@ class TestJiraWorklog:
             "updated": "2023-05-01T10:30:00.000+0000",
             "started": "2023-05-01T09:00:00.000+0000",
             "timeSpent": "2h 30m",
-            "timeSpentSeconds": 9000,
+            "timeSpentSeconds": 3334,
         }
         worklog = JiraWorklog.from_api_response(worklog_data)
         simplified = worklog.to_simplified_dict()
         assert simplified["time_spent"] == "2h 30m"
-        assert simplified["time_spent_seconds"] == 9000
+        assert simplified["time_spent_seconds"] == 3334
         assert simplified["author"] is not None
         assert simplified["author"]["display_name"] == "John Doe"
         assert simplified["comment"] == "Worked on the issue today"

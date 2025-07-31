@@ -103,27 +103,27 @@ docker pull ghcr.io/sooperset/mcp-atlassian:latest
 #### Option A: Streamable-HTTP Transport (Recommended)
 
 ```bash
-# Start server on port 9000 with streamable-HTTP transport
+# Start server on port 3334 with streamable-HTTP transport
 docker run --name mcp-atlassian-server \
   -d \
-  -p 9000:9000 \
+  -p 3334:3334 \
   --env-file .env \
   --restart unless-stopped \
   ghcr.io/sooperset/mcp-atlassian:latest \
-  --transport streamable-http --port 9000 -vv
+  --transport streamable-http --port 3334 -vv
 ```
 
 #### Option B: SSE Transport
 
 ```bash
-# Start server on port 9000 with SSE transport
+# Start server on port 3334 with SSE transport
 docker run --name mcp-atlassian-server \
   -d \
-  -p 9000:9000 \
+  -p 3334:3334 \
   --env-file .env \
   --restart unless-stopped \
   ghcr.io/sooperset/mcp-atlassian:latest \
-  --transport sse --port 9000 -vv
+  --transport sse --port 3334 -vv
 ```
 
 ### Verify Server is Running
@@ -133,7 +133,7 @@ docker run --name mcp-atlassian-server \
 docker ps | grep mcp-atlassian
 
 # Check server health
-curl http://localhost:9000/healthz
+curl http://localhost:3334/healthz
 
 # View server logs
 docker logs mcp-atlassian-server
@@ -142,11 +142,11 @@ docker logs mcp-atlassian-server
 ### Configure Firewall (if needed)
 
 ```bash
-# Allow traffic on port 9000 (Ubuntu/Debian)
-sudo ufw allow 9000
+# Allow traffic on port 3334 (Ubuntu/Debian)
+sudo ufw allow 3334
 
 # Or for CentOS/RHEL
-sudo firewall-cmd --permanent --add-port=9000/tcp
+sudo firewall-cmd --permanent --add-port=3334/tcp
 sudo firewall-cmd --reload
 ```
 
@@ -156,7 +156,7 @@ sudo firewall-cmd --reload
 
 ```bash
 # Test server health from any machine
-curl http://your-remote-server-ip:9000/healthz
+curl http://your-remote-server-ip:3334/healthz
 
 # Expected response:
 # {"status": "healthy", "timestamp": "2025-01-18T19:27:00Z"}
@@ -168,7 +168,7 @@ curl http://your-remote-server-ip:9000/healthz
 
 ```bash
 # Test tools listing
-curl -X POST http://your-remote-server-ip:9000/mcp \
+curl -X POST http://your-remote-server-ip:3334/mcp \
   -H "Content-Type: application/json" \
   -d '{
     "jsonrpc": "2.0",
@@ -181,7 +181,7 @@ curl -X POST http://your-remote-server-ip:9000/mcp \
 
 ```bash
 # Search Jira issues
-curl -X POST http://your-remote-server-ip:9000/mcp \
+curl -X POST http://your-remote-server-ip:3334/mcp \
   -H "Content-Type: application/json" \
   -d '{
     "jsonrpc": "2.0",
@@ -201,7 +201,7 @@ curl -X POST http://your-remote-server-ip:9000/mcp \
 
 ```bash
 # Search Confluence pages
-curl -X POST http://your-remote-server-ip:9000/mcp \
+curl -X POST http://your-remote-server-ip:3334/mcp \
   -H "Content-Type: application/json" \
   -d '{
     "jsonrpc": "2.0",
@@ -266,7 +266,7 @@ class MCPAtlassianClient:
         return response.json()
 
 # Usage example
-client = MCPAtlassianClient("http://your-remote-server:9000")
+client = MCPAtlassianClient("http://your-remote-server:3334")
 
 # List available tools
 tools = client.list_tools()
@@ -331,7 +331,7 @@ class MCPAtlassianClient {
 
 // Usage example
 async function main() {
-    const client = new MCPAtlassianClient('http://your-remote-server:9000');
+    const client = new MCPAtlassianClient('http://your-remote-server:3334');
     
     // List tools
     const tools = await client.listTools();
@@ -362,20 +362,20 @@ docker rm mcp-atlassian-server
 # Start with multi-user OAuth support
 docker run --name mcp-atlassian-server \
   -d \
-  -p 9000:9000 \
+  -p 3334:3334 \
   -e ATLASSIAN_OAUTH_ENABLE=true \
   -e JIRA_URL=https://your-company.atlassian.net \
   -e CONFLUENCE_URL=https://your-company.atlassian.net/wiki \
   --restart unless-stopped \
   ghcr.io/sooperset/mcp-atlassian:latest \
-  --transport streamable-http --port 9000 -vv
+  --transport streamable-http --port 3334 -vv
 ```
 
 ### Client with User Authentication
 
 ```bash
 # Call with user-specific OAuth token
-curl -X POST http://your-remote-server:9000/mcp \
+curl -X POST http://your-remote-server:3334/mcp \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer user_oauth_token" \
   -H "X-Atlassian-Cloud-Id: user_cloud_id" \
@@ -405,7 +405,7 @@ curl -X POST http://your-remote-server:9000/mcp \
    docker logs mcp-atlassian-server
    
    # Verify port is open
-   netstat -tlnp | grep 9000
+   netstat -tlnp | grep 3334
    ```
 
 2. **Authentication Errors**
@@ -423,10 +423,10 @@ curl -X POST http://your-remote-server:9000/mcp \
    sudo ufw status
    
    # Test local connectivity
-   curl http://localhost:9000/healthz
+   curl http://localhost:3334/healthz
    
    # Test external connectivity
-   curl http://your-remote-server:9000/healthz
+   curl http://your-remote-server:3334/healthz
    ```
 
 ### Debug Mode
@@ -434,12 +434,12 @@ curl -X POST http://your-remote-server:9000/mcp \
 ```bash
 # Run with maximum verbosity
 docker run --name mcp-atlassian-debug \
-  -p 9000:9000 \
+  -p 3334:3334 \
   --env-file .env \
   -e MCP_VERY_VERBOSE=true \
   -e MCP_LOGGING_STDOUT=true \
   ghcr.io/sooperset/mcp-atlassian:latest \
-  --transport streamable-http --port 9000 -vv
+  --transport streamable-http --port 3334 -vv
 
 # Monitor logs in real-time
 docker logs -f mcp-atlassian-debug
@@ -466,7 +466,7 @@ server {
     ssl_certificate_key /path/to/key.pem;
     
     location / {
-        proxy_pass http://localhost:9000;
+        proxy_pass http://localhost:3334;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
@@ -480,8 +480,8 @@ server {
 You now have a fully functional remote MCP Atlassian server that can be accessed via HTTP from anywhere. The server provides all 42 tools (26 Jira + 16 Confluence) and supports both single-user and multi-user authentication scenarios.
 
 Key endpoints:
-- Health check: `GET http://your-server:9000/healthz`
-- MCP protocol: `POST http://your-server:9000/mcp`
-- SSE transport: `GET http://your-server:9000/sse` (if using SSE)
+- Health check: `GET http://your-server:3334/healthz`
+- MCP protocol: `POST http://your-server:3334/mcp`
+- SSE transport: `GET http://your-server:3334/sse` (if using SSE)
 
 The server is now ready for integration with AI assistants, custom applications, or any HTTP client that needs to interact with Atlassian products.

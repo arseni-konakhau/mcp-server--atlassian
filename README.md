@@ -433,9 +433,9 @@ MCP Atlassian supports multi-cloud OAuth scenarios where each user connects to t
 
 1. Enable minimal OAuth mode (no client credentials required):
    ```bash
-   docker run -e ATLASSIAN_OAUTH_ENABLE=true -p 9000:9000 \
+   docker run -e ATLASSIAN_OAUTH_ENABLE=true -p 3334:3334 \
      ghcr.io/sooperset/mcp-atlassian:latest \
-     --transport streamable-http --port 9000
+     --transport streamable-http --port 3334
    ```
 
 2. Users provide authentication via HTTP headers:
@@ -454,7 +454,7 @@ user_cloud_id = "user-specific-cloud-id"
 async def main():
     # Connect to streamable HTTP server with custom headers
     async with streamablehttp_client(
-        "http://localhost:9000/mcp",
+        "http://localhost:3334/mcp",
         headers={
             "Authorization": f"Bearer {user_token}",
             "X-Atlassian-Cloud-Id": user_cloud_id
@@ -605,16 +605,16 @@ Both transport types support single-user and multi-user authentication:
 
     ```bash
     # For SSE transport
-    docker run --rm -p 9000:9000 \
+    docker run --rm -p 3334:3334 \
       --env-file /path/to/your/.env \
       ghcr.io/sooperset/mcp-atlassian:latest \
-      --transport sse --port 9000 -vv
+      --transport sse --port 3334 -vv
 
     # OR for streamable-http transport
-    docker run --rm -p 9000:9000 \
+    docker run --rm -p 3334:3334 \
       --env-file /path/to/your/.env \
       ghcr.io/sooperset/mcp-atlassian:latest \
-      --transport streamable-http --port 9000 -vv
+      --transport streamable-http --port 3334 -vv
     ```
 
 2. Configure your IDE (single-user example):
@@ -624,7 +624,7 @@ Both transport types support single-user and multi-user authentication:
     {
       "mcpServers": {
         "mcp-atlassian-http": {
-          "url": "http://localhost:9000/sse"
+          "url": "http://localhost:3334/sse"
         }
       }
     }
@@ -635,7 +635,7 @@ Both transport types support single-user and multi-user authentication:
     {
       "mcpServers": {
         "mcp-atlassian-service": {
-          "url": "http://localhost:9000/mcp"
+          "url": "http://localhost:3334/mcp"
         }
       }
     }
@@ -656,10 +656,10 @@ Here's a complete example of setting up multi-user authentication with streamabl
 
 2. Start the server with streamable-HTTP transport:
    ```bash
-   docker run --rm -p 9000:9000 \
+   docker run --rm -p 3334:3334 \
      --env-file /path/to/your/.env \
      ghcr.io/sooperset/mcp-atlassian:latest \
-     --transport streamable-http --port 9000 -vv
+     --transport streamable-http --port 3334 -vv
    ```
 
 3. Configure your IDE's MCP settings:
@@ -674,7 +674,7 @@ Here's a complete example of setting up multi-user authentication with streamabl
 {
   "mcpServers": {
     "mcp-atlassian-service": {
-      "url": "http://localhost:9000/mcp",
+      "url": "http://localhost:3334/mcp",
       "headers": {
         "Authorization": "Bearer <USER_OAUTH_ACCESS_TOKEN>"
       }
@@ -688,7 +688,7 @@ Here's a complete example of setting up multi-user authentication with streamabl
 {
   "mcpServers": {
     "mcp-atlassian-service": {
-      "url": "http://localhost:9000/mcp",
+      "url": "http://localhost:3334/mcp",
       "headers": {
         "Authorization": "Token <USER_PERSONAL_ACCESS_TOKEN>"
       }
