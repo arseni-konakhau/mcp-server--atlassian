@@ -15,20 +15,10 @@ git clone https://github.com/arseni-konakhau/mcp-server--atlassian.git
 cd mcp-server--atlassian
 ```
 
-### 2. Make Setup Script Executable (Unix/Linux)
+### 2. Prepare Environment File
 ```bash
-chmod +x _setup_test_environment.sh
-```
-
-### 3. Run Setup Script
-```bash
-./_setup_test_environment.sh
-```
-
-### 4. Configure Environment
-```bash
-# Script will create .env from env.debug if needed
-# Edit .env with your credentials:
+# Copy your environment template (env.akonakhau) to .env
+cp env.akonakhau .env
 
 # Edit .env with your credentials:
 # - JIRA_URL=https://your-company.atlassian.net
@@ -39,7 +29,17 @@ chmod +x _setup_test_environment.sh
 # - CONFLUENCE_API_TOKEN=your_api_token
 ```
 
-### 4. Run Test
+### 3. Make Setup Script Executable (Unix/Linux)
+```bash
+chmod +x _setup_test_environment.sh
+```
+
+### 4. Run Setup Script
+```bash
+./_setup_test_environment.sh
+```
+
+### 5. Run Test
 ```bash
 uv run python3 _simple_test.py --verbose
 ```
@@ -53,7 +53,7 @@ uv run python3 _simple_test.py --verbose
 
 ## Quick One-Liner
 ```bash
-git clone https://github.com/arseni-konakhau/mcp-server--atlassian.git && cd mcp-server--atlassian && chmod +x _setup_test_environment.sh && ./_setup_test_environment.sh && echo "Edit .env with your credentials, then run: uv run python3 _simple_test.py --verbose"
+git clone https://github.com/arseni-konakhau/mcp-server--atlassian.git && cd mcp-server--atlassian && cp env.akonakhau .env && chmod +x _setup_test_environment.sh && ./_setup_test_environment.sh && echo "Run test with: uv run python3 _simple_test.py --verbose"
 ```
 
 ## Troubleshooting
