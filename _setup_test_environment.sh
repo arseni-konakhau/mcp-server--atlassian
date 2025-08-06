@@ -34,23 +34,6 @@ if [[ "$PYTHON_VERSION" < "3" ]]; then
 fi
 echo "✅ Using Python $PYTHON_VERSION"
 
-# Check if UV is available
-echo ""
-echo "🔧 Checking UV package manager..."
-if command -v uv &> /dev/null; then
-    echo "✅ UV is available: $(uv --version)"
-    echo "Installing dependencies with UV..."
-    if uv sync; then
-        echo "✅ Dependencies installed successfully with UV!"
-    else
-        echo "⚠️  UV installation failed, falling back to pip..."
-        install_with_pip
-    fi
-else
-    echo "✗ UV is not available"
-    install_with_pip
-fi
-
 function install_with_pip() {
     echo ""
     echo "Installing minimal dependencies with pip..."
@@ -81,6 +64,23 @@ function install_with_pip() {
         echo "Note: mcp is a local package - make sure you're in the project root"
     fi
 }
+
+# Check if UV is available
+echo ""
+echo "🔧 Checking UV package manager..."
+if command -v uv &> /dev/null; then
+    echo "✅ UV is available: $(uv --version)"
+    echo "Installing dependencies with UV..."
+    if uv sync; then
+        echo "✅ Dependencies installed successfully with UV!"
+    else
+        echo "⚠️  UV installation failed, falling back to pip..."
+        install_with_pip
+    fi
+else
+    echo "✗ UV is not available"
+    install_with_pip
+fi
 
 # Step 2: Verify environment configuration
 echo ""
