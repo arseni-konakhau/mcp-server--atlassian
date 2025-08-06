@@ -1,7 +1,7 @@
 # MCP Atlassian Server - Quick Setup Guide
 
 ## Prerequisites
-- Python 3.8+
+- Python 3+
 - `uv` package manager
 - Atlassian account with API tokens
 

@@ -16,7 +16,7 @@ fi
 # Step 1: Install dependencies
 echo ""
 echo "📦 Installing dependencies..."
-# Detect Python command (python3 takes precedence)
+# Detect and validate Python command (python3 takes precedence)
 if command -v python3 &> /dev/null; then
     PYTHON_CMD="python3"
 elif command -v python &> /dev/null; then
@@ -25,6 +25,15 @@ else
     echo "❌ Error: Python not found. Please install Python 3.8+"
     exit 1
 fi
+
+# Verify Python version is 3+
+PYTHON_VERSION=$($PYTHON_CMD -c "import sys; print(f'{sys.version_info.major}.{sys.version_info.minor}')")
+if [[ "$PYTHON_VERSION" < "3" ]]; then
+    echo "❌ Error: Python 3+ required (found $PYTHON_VERSION)"
+    exit 1
+fi
+echo "✅ Using Python $PYTHON_VERSION"
+
 $PYTHON_CMD _install_dependencies.py
 
 # Step 2: Setup environment file
