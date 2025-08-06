@@ -34,7 +34,53 @@ if [[ "$PYTHON_VERSION" < "3" ]]; then
 fi
 echo "✅ Using Python $PYTHON_VERSION"
 
-$PYTHON_CMD _install_dependencies.py
+# Check if UV is available
+echo ""
+echo "🔧 Checking UV package manager..."
+if command -v uv &> /dev/null; then
+    echo "✅ UV is available: $(uv --version)"
+    echo "Installing dependencies with UV..."
+    if uv sync; then
+        echo "✅ Dependencies installed successfully with UV!"
+    else
+        echo "⚠️  UV installation failed, falling back to pip..."
+        install_with_pip
+    fi
+else
+    echo "✗ UV is not available"
+    install_with_pip
+fi
+
+function install_with_pip() {
+    echo ""
+    echo "Installing minimal dependencies with pip..."
+    REQUIRED_PACKAGES=(
+        "python-dotenv"
+        "click"
+        "requests"
+        "pydantic"
+        "atlassian-python-api"
+    )
+    
+    for package in "${REQUIRED_PACKAGES[@]}"; do
+        echo "Installing $package..."
+        if $PYTHON_CMD -m pip install "$package"; then
+            echo "✓ $package installed successfully"
+        else
+            echo "✗ Failed to install $package"
+            echo "You may need to install it manually"
+        fi
+    done
+    
+    # Special handling for local mcp package
+    echo "Installing mcp (local package)..."
+    if $PYTHON_CMD -m pip install -e .; then
+        echo "✓ mcp installed successfully"
+    else
+        echo "✗ Failed to install mcp"
+        echo "Note: mcp is a local package - make sure you're in the project root"
+    fi
+}
 
 # Step 2: Verify environment configuration
 echo ""
