@@ -5,6 +5,8 @@
 - `uv` package manager
 - Atlassian account with API tokens
 
+**NOTE THAT: in your working env python version of 3 may be named differently so make sure all occurances in following guide with `python3` should be replaced with `python`. This amendment is part of expected part of following guide**
+
 ## Setup Instructions
 
 ### 1. Clone Repository
@@ -39,7 +41,7 @@ chmod +x _setup_test_environment.sh
 
 ### 4. Run Test
 ```bash
-python3 _simple_test.py --verbose
+uv run python3 _simple_test.py --verbose
 ```
 
 ## Success Indicators
@@ -51,7 +53,7 @@ python3 _simple_test.py --verbose
 
 ## Quick One-Liner
 ```bash
-git clone https://github.com/arseni-konakhau/mcp-server--atlassian.git && cd mcp-server--atlassian && chmod +x _setup_test_environment.sh && ./_setup_test_environment.sh && echo "Edit .env with your credentials, then run: python3 _simple_test.py --verbose"
+git clone https://github.com/arseni-konakhau/mcp-server--atlassian.git && cd mcp-server--atlassian && chmod +x _setup_test_environment.sh && ./_setup_test_environment.sh && echo "Edit .env with your credentials, then run: uv run python3 _simple_test.py --verbose"
 ```
 
 ## Troubleshooting
