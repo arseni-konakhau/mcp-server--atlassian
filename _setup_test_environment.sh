@@ -17,16 +17,36 @@ fi
 
 # Create and activate virtual environment
 echo "🐍 Creating Python virtual environment..."
-$PYTHON_CMD -m venv .venv --without-pip || { 
-    echo "⚠️ Retrying with system packages..."; 
-    $PYTHON_CMD -m venv .venv --system-site-packages || { 
-        echo "❌ Failed to create virtual environment"; 
-        exit 1; 
-    }
-}
+if ! $PYTHON_CMD -m venv .venv --without-pip 2>/dev/null; then
+    echo "⚠️ Standard venv failed, retrying with system packages..."
+    if ! $PYTHON_CMD -m venv .venv --system-site-packages 2>/dev/null; then
+        echo "❌ Critical: Failed to create virtual environment"
+        echo "Possible solutions:"
+        echo "1. Ensure Python development headers are installed (python3-dev or python3-devel package)"
+        echo "2. Check Python installation with: $PYTHON_CMD --version"
+        echo "3. Try reinstalling Python with:"
+        echo "   - Linux: sudo apt install python3-venv"
+        echo "   - Mac: brew reinstall python"
+        exit 1
+    fi
+fi
+
+# Verify the virtual environment was created properly
+if [ ! -f ".venv/bin/python" ]; then
+    echo "❌ Virtual environment creation incomplete - missing Python binary"
+    exit 1
+fi
+
 source .venv/bin/activate || { echo "❌ Failed to activate virtual environment"; exit 1; }
 # Ensure UV targets the active environment
 export UV_ACTIVE=1
+
+# Verify basic Python functionality
+if ! python -c "import sys; print(sys.version)" >/dev/null 2>&1; then
+    echo "❌ Python environment is corrupted - cannot import standard libraries"
+    echo "Try reinstalling Python or using a different version"
+    exit 1
+fi
 
 # Install pip if missing
 if ! command -v pip &> /dev/null; then
