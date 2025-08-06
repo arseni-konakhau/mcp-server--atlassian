@@ -2,10 +2,9 @@
 
 ## Prerequisites
 - Python 3+
-- `uv` package manager
-- Atlassian account with API tokens
 
 **NOTE THAT: in your working env python version of 3 may be named differently so make sure all occurances in following guide with `python3` should be replaced with `python`. This amendment is part of expected part of following guide**
+
 
 ## Setup Instructions
 
@@ -53,32 +52,3 @@ uv run python3 _simple_test.py --verbose
 ✅ MCP server tests passed  
 ✅ "All tests passed! The MCP Atlassian server appears to be working correctly."
 
-## Quick One-Liner
-```bash
-git clone https://github.com/arseni-konakhau/mcp-server--atlassian.git && cd mcp-server--atlassian && cp env.akonakhau .env && chmod +x _setup_test_environment.sh && ./_setup_test_environment.sh && echo "Run test with: uv run python3 _simple_test.py --verbose"
-```
-
-## Troubleshooting
-
-| Issue | Solution |
-|-------|----------|
-| Import errors | Run `python3 _install_dependencies.py` |
-| 401 Unauthorized | Check API token and username in `.env` |
-| Connection timeout | Verify Atlassian URLs in `.env` |
-
-## Next Steps
-After successful test, integrate with your IDE:
-```json
-{
-  "mcpServers": {
-    "mcp-atlassian": {
-      "command": "uv",
-      "args": ["run", "mcp-atlassian", "--env-file", "/path/to/.env", "--verbose"],
-      "cwd": "/path/to/mcp-server--atlassian"
-    }
-  }
-}
-```
-
----
-**Get API Token**: [Atlassian Account Settings](https://id.atlassian.com/manage-profile/security/api-tokens)
