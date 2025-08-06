@@ -42,6 +42,8 @@ chmod +x _setup_test_environment.sh
 ### 5. Run Test
 ```bash
 uv run python3 _simple_test.py --verbose
+# or (for envs where python of 3rd version not aliased and named 'python')
+# uv run python _simple_test.py --verbose
 ```
 
 ## Success Indicators
