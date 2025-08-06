@@ -36,26 +36,38 @@ echo "✅ Using Python $PYTHON_VERSION"
 
 $PYTHON_CMD _install_dependencies.py
 
-# Step 2: Setup environment file
+# Step 2: Verify environment configuration
 echo ""
-echo "⚙️  Setting up environment configuration..."
+echo "⚙️  Verifying environment configuration..."
+REQUIRED_VARS=(
+    "JIRA_URL"
+    "JIRA_USERNAME" 
+    "JIRA_API_TOKEN"
+    "CONFLUENCE_URL"
+    "CONFLUENCE_USERNAME"
+    "CONFLUENCE_API_TOKEN"
+)
+
 if [ ! -f ".env" ]; then
-    if [ -f ".env.debug" ]; then
-        cp .env.debug .env
-        echo "✅ Created .env from .env.debug template"
-        echo "📝 Please edit .env file with your actual Atlassian credentials:"
-        echo "   - JIRA_URL=https://your-company.atlassian.net"
-        echo "   - JIRA_USERNAME=your.email@company.com"
-        echo "   - JIRA_API_TOKEN=your_api_token"
-        echo "   - CONFLUENCE_URL=https://your-company.atlassian.net/wiki"
-        echo "   - CONFLUENCE_USERNAME=your.email@company.com"
-        echo "   - CONFLUENCE_API_TOKEN=your_api_token"
-    else
-        echo "❌ Error: .env.debug template not found"
-        exit 1
+    echo "❌ Error: .env file not found"
+    exit 1
+fi
+
+# Verify all required variables are set
+MISSING_VARS=()
+for var in "${REQUIRED_VARS[@]}"; do
+    if ! grep -q "^$var=" .env; then
+        MISSING_VARS+=("$var")
     fi
+done
+
+if [ ${#MISSING_VARS[@]} -ne 0 ]; then
+    echo "❌ Error: Missing required environment variables:"
+    printf ' - %s\n' "${MISSING_VARS[@]}"
+    echo "Please edit .env file with these credentials"
+    exit 1
 else
-    echo "✅ .env file already exists"
+    echo "✅ All required environment variables are present"
 fi
 
 # Step 3: Check if UV is available
