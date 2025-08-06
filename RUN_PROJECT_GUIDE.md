@@ -18,14 +18,6 @@ cd mcp-server--atlassian
 ```bash
 # Copy your environment template (env.akonakhau) to .env
 cp env.akonakhau .env
-
-# Edit .env with your credentials:
-# - JIRA_URL=https://your-company.atlassian.net
-# - JIRA_USERNAME=your.email@company.com
-# - JIRA_API_TOKEN=your_api_token
-# - CONFLUENCE_URL=https://your-company.atlassian.net/wiki
-# - CONFLUENCE_USERNAME=your.email@company.com
-# - CONFLUENCE_API_TOKEN=your_api_token
 ```
 
 ### 3. Make Setup Script Executable (Unix/Linux)
@@ -51,4 +43,13 @@ uv run python3 _simple_test.py --verbose
 ✅ API connectivity tests passed  
 ✅ MCP server tests passed  
 ✅ "All tests passed! The MCP Atlassian server appears to be working correctly."
+
+
+
+## Validate MCP Server via HTTP
+
+### Run SERVER in background using HTTP Transport setup
+```bash
+uv run mcp-atlassian --transport streamable-http --port 3334 --verbose
+```
 
