@@ -5,12 +5,36 @@
 
 set -e  # Exit on any error
 
+# Detect Python command first (python3 takes precedence)
+if command -v python3 &> /dev/null; then
+    PYTHON_CMD="python3"
+elif command -v python &> /dev/null; then
+    PYTHON_CMD="python"
+else
+    echo "❌ Error: Python not found. Please install Python 3.8+"
+    exit 1
+fi
+
 # Create and activate virtual environment
 echo "🐍 Creating Python virtual environment..."
-python3 -m venv .venv || { echo "❌ Failed to create virtual environment"; exit 1; }
+$PYTHON_CMD -m venv .venv --without-pip || { 
+    echo "⚠️ Retrying with system packages..."; 
+    $PYTHON_CMD -m venv .venv --system-site-packages || { 
+        echo "❌ Failed to create virtual environment"; 
+        exit 1; 
+    }
+}
 source .venv/bin/activate || { echo "❌ Failed to activate virtual environment"; exit 1; }
 # Ensure UV targets the active environment
 export UV_ACTIVE=1
+
+# Install pip if missing
+if ! command -v pip &> /dev/null; then
+    echo "📦 Bootstrapping pip..."
+    curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+    $PYTHON_CMD get-pip.py || { echo "❌ Failed to install pip"; exit 1; }
+    rm get-pip.py
+fi
 
 echo "🚀 Setting up MCP Atlassian test environment..."
 
