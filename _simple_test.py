@@ -225,7 +225,7 @@ def print_recommendations() -> None:
     """Print recommendations based on test results."""
     print("\n=== Recommendations ===")
     print("1. For end-to-end testing, use the full testing guide:")
-    print("   - Follow TESTING_GUIDE.md")
+    print("   - Follow RUN_PROJECT_GUIDE.md")
     print("   - Use 'uv run mcp-atlassian' for full functionality")
     print("")
     print("2. For debugging specific issues:")
