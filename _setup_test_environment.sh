@@ -16,7 +16,7 @@ fi
 # Step 1: Install dependencies
 echo ""
 echo "📦 Installing dependencies..."
-python3 install_dependencies.py
+python3 _install_dependencies.py
 
 # Step 2: Setup environment file
 echo ""

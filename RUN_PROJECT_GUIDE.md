@@ -13,15 +13,20 @@ git clone https://github.com/arseni-konakhau/mcp-server--atlassian.git
 cd mcp-server--atlassian
 ```
 
-### 2. Install Dependencies
+### 2. Make Setup Script Executable (Unix/Linux)
 ```bash
-python3 _install_dependencies.py
+chmod +x _setup_test_environment.sh
 ```
 
-### 3. Configure Environment
+### 3. Run Setup Script
 ```bash
-# Copy template
-cp env.debug .env
+./_setup_test_environment.sh
+```
+
+### 4. Configure Environment
+```bash
+# Script will create .env from env.debug if needed
+# Edit .env with your credentials:
 
 # Edit .env with your credentials:
 # - JIRA_URL=https://your-company.atlassian.net
@@ -46,7 +51,7 @@ python3 _simple_test.py --verbose
 
 ## Quick One-Liner
 ```bash
-git clone https://github.com/arseni-konakhau/mcp-server--atlassian.git && cd mcp-server--atlassian && python3 _install_dependencies.py && cp env.debug .env && echo "Edit .env with your credentials, then run: python3 _simple_test.py --verbose"
+git clone https://github.com/arseni-konakhau/mcp-server--atlassian.git && cd mcp-server--atlassian && chmod +x _setup_test_environment.sh && ./_setup_test_environment.sh && echo "Edit .env with your credentials, then run: python3 _simple_test.py --verbose"
 ```
 
 ## Troubleshooting
