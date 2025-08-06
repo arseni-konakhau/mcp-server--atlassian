@@ -1,4 +1,5 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python3 || /usr/bin/env python
+
 """
 Manual Testing and Debugging Script for MCP Atlassian
 

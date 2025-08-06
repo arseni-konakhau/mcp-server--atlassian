@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 """
 Simple Testing Script for MCP Atlassian (without UV dependency)
 
@@ -7,7 +7,7 @@ without requiring UV package manager. It can be used for quick debugging
 and validation of the core functionality.
 
 Usage:
-    python3 simple_test.py --help
+    python simple_test.py --help
 """
 
 import argparse

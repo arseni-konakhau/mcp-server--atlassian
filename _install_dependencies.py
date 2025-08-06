@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python3 || /usr/bin/env python
 """
 Simple dependency installer for MCP Atlassian testing.
 
@@ -89,7 +89,7 @@ def main():
     if check_uv_available():
         if install_with_uv():
             print("\n✅ Dependencies installed successfully with UV!")
-            print("You can now run: python3 simple_test.py --verbose")
+            print("You can now run: python simple_test.py --verbose")
             return
         else:
             print("\n⚠️  UV installation failed, falling back to pip...")
@@ -98,7 +98,7 @@ def main():
     print("\nInstalling minimal dependencies with pip...")
     if install_minimal_deps():
         print("\n✅ Minimal dependencies installed successfully!")
-        print("You can now run: python3 simple_test.py --verbose")
+        print("You can now run: python simple_test.py --verbose")
         print("\nNote: For full functionality, consider installing UV:")
         print("  curl -LsSf https://astral.sh/uv/install.sh | sh")
     else:
