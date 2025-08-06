@@ -7,8 +7,10 @@ set -e  # Exit on any error
 
 # Create and activate virtual environment
 echo "🐍 Creating Python virtual environment..."
-python3 -m venv venv || { echo "❌ Failed to create virtual environment"; exit 1; }
-source venv/bin/activate || { echo "❌ Failed to activate virtual environment"; exit 1; }
+python3 -m venv .venv || { echo "❌ Failed to create virtual environment"; exit 1; }
+source .venv/bin/activate || { echo "❌ Failed to activate virtual environment"; exit 1; }
+# Ensure UV targets the active environment
+export UV_ACTIVE=1
 
 echo "🚀 Setting up MCP Atlassian test environment..."
 
