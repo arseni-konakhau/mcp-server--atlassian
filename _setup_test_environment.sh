@@ -16,7 +16,16 @@ fi
 # Step 1: Install dependencies
 echo ""
 echo "📦 Installing dependencies..."
-python3 _install_dependencies.py
+# Detect Python command (python3 takes precedence)
+if command -v python3 &> /dev/null; then
+    PYTHON_CMD="python3"
+elif command -v python &> /dev/null; then
+    PYTHON_CMD="python"
+else
+    echo "❌ Error: Python not found. Please install Python 3.8+"
+    exit 1
+fi
+$PYTHON_CMD _install_dependencies.py
 
 # Step 2: Setup environment file
 echo ""
@@ -57,10 +66,10 @@ echo "🎉 Setup complete!"
 echo ""
 echo "📋 Next steps:"
 echo "1. Edit .env file with your Atlassian credentials"
-echo "2. Run the test: uv run python3 simple_test.py --verbose"
+echo "2. Run the test: uv run $PYTHON_CMD simple_test.py --verbose"
 echo ""
 echo "🔗 Quick commands:"
-echo "   Test connection: uv run python3 simple_test.py --verbose"
+echo "   Test connection: uv run $PYTHON_CMD simple_test.py --verbose"
 echo "   Run MCP server: uv run mcp-atlassian --env-file .env --read-only --verbose"
 echo ""
 echo "📖 For detailed guidance, see: TESTING_GUIDE.md"
