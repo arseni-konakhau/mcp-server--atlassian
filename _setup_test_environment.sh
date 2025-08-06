@@ -5,44 +5,15 @@
 
 set -e  # Exit on any error
 
-# System-specific Python installation instructions
-function install_python() {
-    echo "🔧 Attempting to install Python..."
-    if [[ "$OSTYPE" == "linux-gnu"* ]]; then
-        echo "📦 Detected Linux system"
-        if command -v apt-get &> /dev/null; then
-            sudo apt-get update && sudo apt-get install -y python3 python3-venv python3-dev
-        elif command -v yum &> /dev/null; then
-            sudo yum install -y python3 python3-devel
-        else
-            echo "❌ Unsupported Linux package manager"
-            exit 1
-        fi
-    elif [[ "$OSTYPE" == "darwin"* ]]; then
-        echo "🍏 Detected macOS system"
-        if command -v brew &> /dev/null; then
-            brew install python
-        else
-            echo "❌ Homebrew not found. Please install Python manually from python.org"
-            exit 1
-        fi
-    else
-        echo "❌ Unsupported OS. Please install Python manually from python.org"
-        exit 1
-    fi
-}
-
 # Verify Python installation and standard libraries
 function verify_python() {
     if ! $PYTHON_CMD -c "import sys, os, encodings" 2>/dev/null; then
         echo "❌ Python standard libraries are missing or corrupted"
-        install_python
-        # Verify again after installation attempt
-        if ! $PYTHON_CMD -c "import sys, os, encodings" 2>/dev/null; then
-            echo "❌❌ Critical Python installation failure"
-            echo "Please install Python manually and ensure it's in your PATH"
-            exit 1
-        fi
+        echo "Diagnostic information:"
+        echo "Python path: $($PYTHON_CMD -c "import sys; print(sys.path)" 2>/dev/null || true)"
+        echo "Executable: $($PYTHON_CMD -c "import sys; print(sys.executable)" 2>/dev/null || true)"
+        echo "Please ensure Python is properly installed and configured"
+        exit 1
     fi
 }
 
@@ -52,17 +23,9 @@ if command -v python3 &> /dev/null; then
 elif command -v python &> /dev/null; then
     PYTHON_CMD="python"
 else
-    echo "❌ Error: Python not found"
-    install_python
-    # Try detection again after installation
-    if command -v python3 &> /dev/null; then
-        PYTHON_CMD="python3"
-    elif command -v python &> /dev/null; then
-        PYTHON_CMD="python"
-    else
-        echo "❌❌ Python installation failed"
-        exit 1
-    fi
+    echo "❌ Error: Python not found in PATH"
+    echo "Please ensure Python 3.8+ is installed and available in your PATH"
+    exit 1
 fi
 
 # Verify Python installation before proceeding
