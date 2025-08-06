@@ -46,10 +46,54 @@ uv run python3 _simple_test.py --verbose
 
 
 
+
+------------
+
+
+
+
 ## Validate MCP Server via HTTP
 
-### Run SERVER in background using HTTP Transport setup
+### 1. Run Server in Background
 ```bash
-uv run mcp-atlassian --transport streamable-http --port 3334 --verbose
+uv run mcp-atlassian --transport streamable-http --port 3334 --verbose &
 ```
 
+### 2. Verify Server is Running
+```bash
+curl -v http://localhost:3334/health
+```
+Expected response:
+```json
+{"status":"ok"}
+```
+
+### 3. Test Available Tools
+```bash
+# List all available tools
+curl -X POST http://localhost:3334/tools/list -H "Content-Type: application/json" -d '{}'
+
+# Example: Search Jira issues
+curl -X POST http://localhost:3334/tools/jira_search \
+  -H "Content-Type: application/json" \
+  -d '{"jql":"project = PROJ AND status = '\''In Progress'\''"}'
+
+# Example: Get Confluence page
+curl -X POST http://localhost:3334/tools/confluence_get_page \
+  -H "Content-Type: application/json" \
+  -d '{"page_id":"123456"}'
+```
+
+### 4. Stop the Server
+```bash
+# Find the process ID
+ps aux | grep "uv run mcp-atlassian"
+
+# Kill the process
+kill -9 [PID]
+```
+
+### Troubleshooting
+- If you get connection refused, verify the server is running
+- For 401 errors, check your .env credentials
+- For 500 errors, check server logs
