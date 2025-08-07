@@ -22,13 +22,13 @@ cp env.akonakhau .env
 
 ### 3. Make Setup Script Executable (Unix/Linux)
 ```bash
-chmod +x _setup_test_environment.sh
+chmod +x start.sh
 ```
 
 ### 4. Run Setup Script
 ```bash
-./_setup_test_environment.sh
-# bash ./_setup_test_environment.sh
+./start.sh
+# bash ./start.sh
 ```
 
 ### 5. Run Test
