@@ -56,23 +56,30 @@ uv run python3 _simple_test.py --verbose
 
 
 
-## Validate MCP Server via HTTP
+## UNIX/Linux Server Management
 
-### 1. Run Server in Background
+### Running the Server
 ```bash
+# Start server in background (will continue running after terminal closes)
 uv run mcp-atlassian --transport streamable-http --port 3334 --verbose &
+
+# Alternative: Run in a detached screen session (persists after logout)
+screen -S mcp-server -d -m uv run mcp-atlassian --transport streamable-http --port 3334 --verbose
 ```
 
-### 2. Verify Server is Running
+### Verifying Server Status
 ```bash
+# Basic health check
 curl -v http://localhost:3334/health
-```
-Expected response:
-```json
-{"status":"ok"}
+
+# Detailed process info
+ps aux | grep "uv run mcp-atlassian"
+
+# Check port usage
+netstat -tulnp | grep 3334
 ```
 
-### 3. Test Available Tools
+### Testing Server Functionality
 ```bash
 # List all available tools
 curl -X POST http://localhost:3334/tools/list -H "Content-Type: application/json" -d '{}'
