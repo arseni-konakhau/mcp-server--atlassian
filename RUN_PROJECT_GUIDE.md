@@ -28,10 +28,7 @@ chmod +x _setup_test_environment.sh
 ### 4. Run Setup Script
 ```bash
 ./_setup_test_environment.sh
-```
-or
-```bash
-bash ./_setup_test_environment.sh
+# bash ./_setup_test_environment.sh
 ```
 
 ### 5. Run Test
