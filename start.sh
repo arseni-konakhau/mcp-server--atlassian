@@ -16,7 +16,7 @@ fi
 # Step 1: Install dependencies
 echo ""
 echo "📦 Installing dependencies..."
-python3 install_dependencies.py
+python3 _install_dependencies.py
 
 # Step 2: Setup environment file
 echo ""
@@ -57,10 +57,5 @@ echo "🎉 Setup complete!"
 echo ""
 echo "📋 Next steps:"
 echo "1. Edit .env file with your Atlassian credentials"
-echo "2. Run the test: uv run python3 simple_test.py --verbose"
-echo ""
-echo "🔗 Quick commands:"
-echo "   Test connection: uv run python3 simple_test.py --verbose"
-echo "   Run MCP server: uv run mcp-atlassian --env-file .env --read-only --verbose"
-echo ""
-echo "📖 For detailed guidance, see: TESTING_GUIDE.md"
+echo "2. Run the test: uv run mcp-atlassian --transport streamable-http --port 3334 --env-file .env --verbose"
+echo "3. Validate via ./_http/validate.http"
