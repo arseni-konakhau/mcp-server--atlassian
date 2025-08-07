@@ -57,7 +57,10 @@ uv run python3 _simple_test.py --verbose
 
 ### Running the Server
 ```bash
-# Start server in background (will continue running after terminal closes)
+# start server in foreground
+uv run mcp-atlassian --transport streamable-http --port 3334 --env-file .env --verbose
+
+# Start server in background
 nohup uv run mcp-atlassian --transport streamable-http --port 3334 --verbose > mcp-server.log 2>&1 &
 
 # To check server logs:
@@ -68,6 +71,9 @@ nohup uv run mcp-atlassian --transport streamable-http --port 3334 --verbose > m
 ```bash
 # Basic health check
 curl -v http://localhost:3334/health
+
+# selectel
+curl -v http://87.228.101.211:3334/health
 
 # Detailed process info
 ps aux | grep "uv run mcp-atlassian"
