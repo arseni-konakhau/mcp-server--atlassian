@@ -12,10 +12,8 @@
 # =============================================
 # CONFIGURATION
 # =============================================
-@baseUrl = http://localhost:3334
-
-
-
+# @baseUrl = http://localhost:3334
+@baseUrl = http://87.228.101.211:3334
 
 
 
@@ -50,21 +48,6 @@ GET {{baseUrl}}/healthz
 Content-Type: application/json
 
 ### Expected Response: {"status": "ok"}
-
-
-
-
-
-
-
-### Health Check - Verify server is running
-GET http://87.228.101.211:3334/healthz
-Content-Type: application/json
-
-
-
-
-
 
 
 ### 1. Initialize MCP Session
