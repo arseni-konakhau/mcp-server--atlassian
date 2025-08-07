@@ -27,8 +27,7 @@ chmod +x start.sh
 
 ### 4. Run Setup Script
 ```bash
-./start.sh
-# bash ./start.sh
+bash ./start.sh
 ```
 
 ### 5. Run Test
@@ -47,9 +46,7 @@ uv run python3 ./scripts/_simple_test.py --verbose
 
 
 
-
 ------------
-
 
 
 
