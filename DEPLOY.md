@@ -1,4 +1,4 @@
-# MCP Atlassian Server - Quick Setup Guide
+# MCP Atlassian Server - Deployment Guide
 
 ## Prerequisites
 - Python 3+
