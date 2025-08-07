@@ -61,10 +61,10 @@ uv run python3 _simple_test.py --verbose
 ### Running the Server
 ```bash
 # Start server in background (will continue running after terminal closes)
-uv run mcp-atlassian --transport streamable-http --port 3334 --verbose &
+nohup uv run mcp-atlassian --transport streamable-http --port 3334 --verbose > mcp-server.log 2>&1 &
 
-# Alternative: Run in a detached screen session (persists after logout)
-screen -S mcp-server -d -m uv run mcp-atlassian --transport streamable-http --port 3334 --verbose
+# To check server logs:
+# tail -f mcp-server.log
 ```
 
 ### Verifying Server Status
@@ -97,11 +97,17 @@ curl -X POST http://localhost:3334/tools/confluence_get_page \
 
 ### 4. Stop the Server
 ```bash
-# Find the process ID
+# Find the process ID (look for the nohup command)
 ps aux | grep "uv run mcp-atlassian"
 
-# Kill the process
+# Kill the process (replace [PID] with actual process number)
 kill -9 [PID]
+
+# Alternative: Find and kill in one command
+pkill -f "uv run mcp-atlassian"
+
+# Verify process is gone
+ps aux | grep "uv run mcp-atlassian"
 ```
 
 ### Troubleshooting

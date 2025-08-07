@@ -76,7 +76,7 @@ Accept: application/json, text/event-stream
 
 # MAKE SURE U POPULATE THIS VARIABLE AS LONG AS "### 1. Initialize MCP Session" request return result
 # retrieve from header: "mcp-session-id": "your-session-key-id"
-@sessionId = 1004facdbb774a81b74c70c332bc5c2c
+@sessionId = 1eecfc9d03394a478ab3a5f018e63a2b
 
 
 ### 1a. Send Initialized Notification (REQUIRED after initialize)
