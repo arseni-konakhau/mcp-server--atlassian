@@ -37,39 +37,8 @@ $PYTHON_CMD -c "import sys; print(f'Python path: {sys.path}')" || true
 $PYTHON_CMD -c "import sys; print(f'Executable: {sys.executable}')" || true
 which $PYTHON_CMD || true
 
-# Create and activate virtual environment (with fallback to system Python)
-echo "🐍 Creating Python virtual environment..."
-if ! $PYTHON_CMD -m venv .venv --without-pip 2>/dev/null; then
-    echo "⚠️ Standard venv failed, retrying with system packages..."
-    if ! $PYTHON_CMD -m venv .venv --system-site-packages 2>/dev/null; then
-        echo "❌ Virtual environment creation failed - falling back to system Python"
-        echo "⚠️ Warning: Using system Python directly (no virtual environment)"
-        USE_SYSTEM_PYTHON=1
-    fi
-fi
-
-if [ -z "$USE_SYSTEM_PYTHON" ]; then
-    # Verify the virtual environment was created properly
-    if [ ! -f ".venv/bin/python" ]; then
-        echo "❌ Virtual environment creation incomplete - missing Python binary"
-        exit 1
-    fi
-    source .venv/bin/activate || { echo "❌ Failed to activate virtual environment"; exit 1; }
-    # Ensure UV targets the active environment
-    export UV_ACTIVE=1
-else
-    echo "ℹ️ Using system Python directly at: $(which $PYTHON_CMD)"
-fi
-
-# Verify the virtual environment was created properly
-if [ ! -f ".venv/bin/python" ]; then
-    echo "❌ Virtual environment creation incomplete - missing Python binary"
-    exit 1
-fi
-
-source .venv/bin/activate || { echo "❌ Failed to activate virtual environment"; exit 1; }
-# Ensure UV targets the active environment
-export UV_ACTIVE=1
+# Using system Python directly
+echo "ℹ️ Using system Python directly at: $(which $PYTHON_CMD)"
 
 # Verify basic Python functionality
 if ! python -c "import sys; print(sys.version)" >/dev/null 2>&1; then
