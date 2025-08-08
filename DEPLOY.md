@@ -1,39 +1,39 @@
 # MCP Atlassian Server - Deployment Guide
 
-## Prerequisites
+## Prerequisites:
 - Python 3+
+- UV
 
-**NOTE THAT: in your working env python version of 3 may be named differently so make sure all occurances in following guide with `python3` should be replaced with `python`. This amendment is part of expected part of following guide**
+__NOTE THAT: in your working env python version of 3 may be named differently so make sure all occurances in following guide with `python3` should be replaced with `python`. This amendment is part of expected part of following guide__
 
 
 ## Setup Instructions
 
-### 1. Clone Repository
+1. Clone Repository
 ```bash
 git clone https://github.com/arseni-konakhau/mcp-server--atlassian.git
+
 cd mcp-server--atlassian
 ```
 
-### 2. Prepare Environment File
+2. Prepare Environment File
 ```bash
-# Copy your environment template (env.akonakhau) to .env
-cp env.akonakhau .env
+cp env.akonakhau .env # environment template example env.akonakhau to .env
 ```
 
-### 3. Make Setup Script Executable (Unix/Linux)
+3. Run Setup Script
 ```bash
 chmod +x start.sh
-```
 
-### 4. Run Setup Script
-```bash
 bash ./start.sh
 ```
 
-### 5. Run Test
+4. Run Test
 ```bash
 uv run python3 ./scripts/_simple_test.py --verbose
+
 # or (for envs where python of 3rd version not aliased and named 'python')
+
 # uv run python ./scripts/_simple_test.py --verbose
 ```
 
