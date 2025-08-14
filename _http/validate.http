@@ -14,8 +14,7 @@
 # =============================================
 @baseUrl = http://localhost:3334
 # @baseUrl = http://87.228.101.211:3334
-
-
+# =============================================
 
 
 
@@ -49,6 +48,13 @@ Content-Type: application/json
 
 ### Expected Response: {"status": "ok"}
 
+# =============================================
+# =============================================
+# INIT
+# =============================================
+# =============================================
+
+@sessionId = 508013428d984bdba910df51045755b7
 
 ### 1. Initialize MCP Session
 POST {{baseUrl}}/mcp
@@ -74,7 +80,6 @@ Accept: application/json, text/event-stream
 
 # MAKE SURE U POPULATE THIS VARIABLE AS LONG AS "### 1. Initialize MCP Session" request return result
 # retrieve from header: "mcp-session-id": "your-session-key-id"
-@sessionId = b449d1200e1e467095ef242acfd97647
 
 
 ### 1a. Send Initialized Notification (REQUIRED after initialize)
